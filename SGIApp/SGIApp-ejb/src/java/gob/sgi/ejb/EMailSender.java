@@ -11,8 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.mail.Message;
@@ -43,9 +41,9 @@ public class EMailSender {
                 }
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(EMailSender.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("FileNotFoundException: "+ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(EMailSender.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("IOException: "+ex.getMessage());
         }
         try {
             FileReader fileReader = new FileReader(Mail.BODY_PATH);
@@ -55,9 +53,9 @@ public class EMailSender {
                 }
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(EMailSender.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("FileNotFoundException: "+ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(EMailSender.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("IOException: "+ex.getMessage());
         }
         try {
             FileReader fileReader = new FileReader(Mail.FOOTER_PATH);
@@ -67,9 +65,9 @@ public class EMailSender {
                 }
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(EMailSender.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("FileNotFoundException: "+ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(EMailSender.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("IOException: "+ex.getMessage());
         }
         mail.setHeader(header.toString().replace("$idSolicitud", mail.getIdSolicitud() != null ? mail.getIdSolicitud() : ""));
         mail.setBody(body.toString().replace("$idSolicitud", mail.getIdSolicitud() != null ? mail.getIdSolicitud() : ""));
@@ -85,6 +83,7 @@ public class EMailSender {
         try {
             Session session = Session.getDefaultInstance(props,
                     new javax.mail.Authenticator() {
+                        @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
                             return new PasswordAuthentication(Mail.SMTP_USER, Mail.SMTP_PASSWORD);
                         }
@@ -101,10 +100,8 @@ public class EMailSender {
             Transport.send(msg);
             System.out.println("Mensaje enviado");
         } catch (Exception mex) {
-            mex.printStackTrace();
+            System.out.println("Exception: "+mex.getMessage());
         }
         return true;
-    }
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    }    
 }

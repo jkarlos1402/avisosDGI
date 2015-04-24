@@ -5,8 +5,6 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.Resource;
 import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
@@ -35,7 +33,7 @@ public class MailWS {
     @POST
     public Response placeMailToQueue(@FormParam("idSol") String idSol, @FormParam("idUsu") String idUsu,
             @FormParam("estatusSol") String estatusSol, @FormParam("idObr") String idObr,
-            @FormParam("idRolUsu") String idRolUsu, @FormParam("idBco") String idBco) {
+            @FormParam("idRolUsu") String idRolUsu, @FormParam("idBco") String idBco, @FormParam("estatusBco")String estatusBco) {
         try {
             //requerimientos para poder enviar un mensage
             try (QueueConnection connection = connectionFactory.createQueueConnection()) {
@@ -49,6 +47,7 @@ public class MailWS {
                 mail.setEstatusSolicitud(estatusSol);
                 mail.setIdObra(idObr);
                 mail.setIdRolUsu(idRolUsu);
+                mail.setEstatusBco(estatusBco);
                 //se creo el mensaje
                 ObjectMessage message = queueSession.createObjectMessage(mail);
                 //se envia el mensaje
@@ -57,7 +56,7 @@ public class MailWS {
                 connection.close();
             }
         } catch (JMSException ex) {
-            System.out.println("Error: " + ex.getMessage());
+            System.out.println("JMSException: " + ex.getMessage());
         }
         return Response.ok()
                 .header("Access-Control-Allow-Origin", "*")

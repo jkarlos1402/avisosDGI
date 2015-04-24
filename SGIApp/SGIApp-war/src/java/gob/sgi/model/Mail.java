@@ -24,6 +24,8 @@ public class Mail implements Serializable {
     private String estatusSolicitud;
     private String idObra;
     private String idBco;
+    private String unidadEjecutora;
+    private String estatusBco;
 
     public static final String HEADER_PATH = "c:/www/sgi/resources/header.html";
     public static final String BODY_PATH = "c:/www/sgi/resources/body.html";
@@ -32,6 +34,22 @@ public class Mail implements Serializable {
     public static final String SMTP_PORT = "587";
     public static final String SMTP_USER = "soporte.sspp@edomex.gob.mx";
     public static final String SMTP_PASSWORD = "Soporte01";
+
+    public String getEstatusBco() {
+        return estatusBco;
+    }
+
+    public void setEstatusBco(String estatusBco) {
+        this.estatusBco = estatusBco;
+    }
+
+    public String getUnidadEjecutora() {
+        return unidadEjecutora;
+    }
+
+    public void setUnidadEjecutora(String unidadEjecutora) {
+        this.unidadEjecutora = unidadEjecutora;
+    }
 
     public String getIdBco() {
         return idBco;
