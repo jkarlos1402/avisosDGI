@@ -31,23 +31,23 @@ public class MailWS {
     private Queue mailQueue;
 
     @POST
-    public Response placeMailToQueue(@FormParam("idSol") String idSol, @FormParam("idUsu") String idUsu,
-            @FormParam("estatusSol") String estatusSol, @FormParam("idObr") String idObr,
-            @FormParam("idRolUsu") String idRolUsu, @FormParam("idBco") String idBco, @FormParam("estatusBco")String estatusBco) {
+    public Response placeMailToQueue(@FormParam("idSol")final String idSol, @FormParam("idUsu")final String idUsu,
+            @FormParam("estatusSol")final String estatusSol, @FormParam("idObr")final String idObr,
+            @FormParam("idRolUsu")final String idRolUsu, @FormParam("idBco")final String idBco, @FormParam("estatusBco")final String estatusBco) {
         try {
-            //requerimientos para poder enviar un mensage
+            //requerimientos para poder enviar un mensage a la cola
             try (QueueConnection connection = connectionFactory.createQueueConnection()) {
                 QueueSession queueSession = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
                 QueueSender queueSender = queueSession.createSender(null);
 
                 // se crea el objeto que sera enviado como mensaje
                 Mail mail = new Mail();
-                mail.setIdSolicitud(idSol);
-                mail.setIdUsuario(idUsu);
-                mail.setEstatusSolicitud(estatusSol);
-                mail.setIdObra(idObr);
-                mail.setIdRolUsu(idRolUsu);
-                mail.setEstatusBco(estatusBco);
+                mail.setIdSolicitud(idSol != null ? idSol : "");
+                mail.setIdUsuario(idUsu != null ? idUsu : "");
+                mail.setEstatusSolicitud(estatusSol != null ? estatusSol : "");
+                mail.setIdObra(idObr != null ? idObr : "");
+                mail.setIdRolUsu(idRolUsu != null ? idRolUsu : "");
+                mail.setEstatusBco(estatusBco != null ? estatusBco : "");
                 //se creo el mensaje
                 ObjectMessage message = queueSession.createObjectMessage(mail);
                 //se envia el mensaje

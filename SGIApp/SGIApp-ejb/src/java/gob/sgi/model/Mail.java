@@ -26,15 +26,7 @@ public class Mail implements Serializable {
     private String idObra;
     private String idBco;
     private String unidadEjecutora;
-    private String estatusBco;
-
-    public static final String HEADER_PATH = "c:/www/sgi/resources/header.html";
-    public static final String BODY_PATH = "c:/www/sgi/resources/body.html";
-    public static final String FOOTER_PATH = "c:/www/sgi/resources/footer.html";
-    public static final String SMTP_HOST = "smtp.office365.com";
-    public static final String SMTP_PORT = "587";
-    public static final String SMTP_USER = "soporte.sspp@edomex.gob.mx";
-    public static final String SMTP_PASSWORD = "Soporte01";
+    private String estatusBco;     
 
     public String getEstatusBco() {
         return estatusBco;
