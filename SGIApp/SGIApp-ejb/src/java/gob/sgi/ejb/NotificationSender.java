@@ -27,7 +27,7 @@ public class NotificationSender {
                         notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: " + mail.getIdSolicitud() + " ah sido ENVIADA para su revisi\u00f3n; procedencia: " + mail.getUnidadEjecutora());
+                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> ah sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora()+"</b>");
                         em.persist(notificacion);
                     }
                 } else if (mail.getEstatusBco().equals(Constante.ESTATUS_ES_ENVIADO)) {
@@ -36,7 +36,7 @@ public class NotificationSender {
                         notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: " + mail.getIdBco() + " ah sido ENVIADA para su revisi\u00f3n; procedencia: " + mail.getUnidadEjecutora());
+                        notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ah sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora()+"</b>");
                         em.persist(notificacion);
                     }
                 }
@@ -49,7 +49,7 @@ public class NotificationSender {
                             notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                             notificacion.setIdUsu(Integer.parseInt(idUsuario));
                             notificacion.setLeido(false);
-                            notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: " + mail.getIdBco() + " ah sido INGRESADO f\u00edsicamente a la DGI para su DICTAMINACI\u00d3N");
+                            notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ah sido <b>INGRESADO</b> f\u00edsicamente a la DGI para su <b>DICTAMINACI\u00d3N</b>");
                             em.persist(notificacion);
                         }
                         break;
@@ -60,7 +60,7 @@ public class NotificationSender {
                             notificacion.setFechaNotificacion(fechaEnvio.getTime());
                             notificacion.setIdUsu(Integer.parseInt(idUsuario));
                             notificacion.setLeido(false);
-                            notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: " + mail.getIdBco() + " ah sido regresado con OBSERVACIONES, favor de corregirlas y env\u00edar nuevamente el estudio");
+                            notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ah sido regresado con <b>OBSERVACIONES</b>, favor de corregirlas y env\u00edar nuevamente el estudio");
                             fechaEnvio.add(Calendar.DAY_OF_YEAR, 180);// cambiar 180 por una constante (regla de negocio)
                             notificacion.setVigencia(fechaEnvio.getTime());
                             em.persist(notificacion);
@@ -73,7 +73,7 @@ public class NotificationSender {
                             notificacion.setFechaNotificacion(fechaEnvio.getTime());
                             notificacion.setIdUsu(Integer.parseInt(idUsuario));
                             notificacion.setLeido(false);
-                            notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: " + mail.getIdBco() + " ah sido DICTAMINADO");
+                            notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ah sido <b>DICTAMINADO</b>");
                             em.persist(notificacion);
                         }
                         break;
@@ -87,7 +87,7 @@ public class NotificationSender {
                         notificacion.setFechaNotificacion(fechaEnvio.getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: " + mail.getIdSolicitud() + " ah sido regresada con OBSERVACIONES, favor de corregirlas y env\u00edar nuevamente la solicitud");
+                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> ah sido regresada con <b>OBSERVACIONES</b>, favor de corregirlas y env\u00edar nuevamente la solicitud");
                         fechaEnvio.add(Calendar.DAY_OF_YEAR, 180);// cambiar 180 por una constante (regla de negocio)
                         notificacion.setVigencia(fechaEnvio.getTime());
                         em.persist(notificacion);
@@ -99,7 +99,7 @@ public class NotificationSender {
                         notificacion.setFechaNotificacion(fechaEnvio.getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: " + mail.getIdSolicitud() + " ah sido ACEPTADA");
+                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> ah sido <b>ACEPTADA</b>");
                         em.persist(notificacion);
                     }
                 } else if (!mail.getIdObra().equals("")) {
@@ -109,7 +109,7 @@ public class NotificationSender {
                         notificacion.setFechaNotificacion(fechaEnvio.getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("Se ha CREADO la OBRA con n\u00famero de identificaci\u00f3n: " + mail.getIdObra() + ", correspondiente a la solicitud con n\u00famero de identificaci\u00f3n: " + mail.getIdSolicitud());
+                        notificacion.setMensaje("Se ha <b>CREADO</b> la <b>OBRA</b> con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdObra() + "</b>, correspondiente a la solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud()+"</b>");
                         em.persist(notificacion);
                     }
                 }
@@ -122,7 +122,7 @@ public class NotificationSender {
                         notificacion.setFechaNotificacion(fechaEnvio.getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("Se ha INGRESADO en ventanilla la solicitud con n\u00famero de identificaci\u00f3n: " + mail.getIdSolicitud());
+                        notificacion.setMensaje("Se ha <b>INGRESADO</b> en ventanilla la solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud()+"</b>");
                         em.persist(notificacion);
                     }
                 }

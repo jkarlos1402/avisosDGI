@@ -114,17 +114,23 @@ public class EMailSender {
                 .replace(Constante.STR_ID_BANCO, mail.getIdBco() != null ? mail.getIdBco() : "")
                 .replace(Constante.STR_ESTATUS_SOL, mail.getEstatusSolicitud() != null ? EstatusSolicitud.val(mail.getEstatusSolicitud()) : "")
                 .replace(Constante.STR_ESTATUS_ES, mail.getEstatusBco() != null ? EstatusES.val(mail.getEstatusBco()) : "")
-                .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : ""));
+                .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : "")
+                .replace(Constante.STR_ID_OBRA, mail.getIdObra() != null ? mail.getIdObra() : "")
+                .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
         mail.setBody(body.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud() : "")
                 .replace(Constante.STR_ID_BANCO, mail.getIdBco() != null ? mail.getIdBco() : "")
                 .replace(Constante.STR_ESTATUS_SOL, mail.getEstatusSolicitud() != null ? EstatusSolicitud.val(mail.getEstatusSolicitud()) : "")
                 .replace(Constante.STR_ESTATUS_ES, mail.getEstatusBco() != null ? EstatusES.val(mail.getEstatusBco()) : "")
-                .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : ""));
+                .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : "")
+                .replace(Constante.STR_ID_OBRA, mail.getIdObra() != null ? mail.getIdObra() : "")
+                .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
         mail.setFooter(footer.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud() : "")
                 .replace(Constante.STR_ID_BANCO, mail.getIdBco() != null ? mail.getIdBco() : "")
                 .replace(Constante.STR_ESTATUS_SOL, mail.getEstatusSolicitud() != null ? EstatusSolicitud.val(mail.getEstatusSolicitud()) : "")
                 .replace(Constante.STR_ESTATUS_ES, mail.getEstatusBco() != null ? EstatusES.val(mail.getEstatusBco()) : "")
-                .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : ""));
+                .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : "")
+                .replace(Constante.STR_ID_OBRA, mail.getIdObra() != null ? mail.getIdObra() : "")
+                .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
         Properties props = new Properties();
         props.put("mail.smtp.user", Constante.SMTP_USER);
         props.put("mail.smtp.host", Constante.SMTP_HOST);
@@ -134,14 +140,14 @@ public class EMailSender {
         props.put("mail.smtp.socketFactory.port", Constante.SMTP_PORT);
         props.put("mail.smtp.socketFactory.fallback", "false");
         try {
-            Session session = Session.getDefaultInstance(props,
+            Session session = Session.getInstance(props,
                     new javax.mail.Authenticator() {
                         @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
                             return new PasswordAuthentication(Constante.SMTP_USER, Constante.SMTP_PASSWORD);
                         }
                     });
-            session.setDebug(true);
+            session.setDebug(false);
 
             MimeMessage msg = new MimeMessage(session);
             msg.setText(mail.getHeader().concat(mail.getBody()).concat(mail.getFooter()), "utf-8", "html");
@@ -150,8 +156,7 @@ public class EMailSender {
             for (String recipient : mail.getRecipients()) {
                 msg.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             }
-            Transport.send(msg);
-            System.out.println("Mensaje enviado");
+            Transport.send(msg);            
         } catch (Exception mex) {
             System.out.println("Exception: " + mex.getMessage());
         }

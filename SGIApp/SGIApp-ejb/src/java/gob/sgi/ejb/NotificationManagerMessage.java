@@ -33,7 +33,7 @@ import javax.sql.DataSource;
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
     @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "QueueMail")
 })
-public class NotificationManager implements MessageListener {
+public class NotificationManagerMessage implements MessageListener {
 
     @EJB
     private EMailSender eMailSender;       
@@ -146,8 +146,8 @@ public class NotificationManager implements MessageListener {
                     notificationSender.sendNotification(mail, userRecipients);
                     break;
             }
-            mail.setRecipients(recipients);
-            System.out.println(mail.getRecipients().toString());
+            mail.setRecipients(recipients);            
+            // se envia correo a los correspondientes
             eMailSender.send(mail);
         } catch (JMSException ex) {
             System.out.println("JMSException: "+ex.getMessage());

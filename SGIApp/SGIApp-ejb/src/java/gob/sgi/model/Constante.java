@@ -4,9 +4,11 @@ public class Constante {
     //palabras reservadas para el texto de los emails
     public static final String STR_ID_BANCO = "$idBanco";
     public static final String STR_ID_SOLICITUD = "$idSolicitud";
+    public static final String STR_ID_OBRA = "$idObra";
     public static final String STR_ESTATUS_SOL = "$estatusSolicitud";
     public static final String STR_ESTATUS_ES = "$estatusES";
-    public static final String STR_NOM_UE = "$nombreUE";    
+    public static final String STR_NOM_UE = "$nombreUE";     
+    public static final String STR_DIR_SGI = "$direccionSGI";     
 
     //serie de rutas para los email
     public static final String HEADER_PATH = "c:/www/sgi/resources/header.html";
@@ -46,4 +48,7 @@ public class Constante {
     public static final String ESTATUS_ES_REVISADO = "5";
     public static final String ESTATUS_ES_OBSERVACIONES = "2";
     public static final String ESTATUS_ES_DICTAMINADO = "6";
+    
+    //direccion web de la sgi
+    public static final String DIR_SGI = "http://localhost/DGI";   
 }
