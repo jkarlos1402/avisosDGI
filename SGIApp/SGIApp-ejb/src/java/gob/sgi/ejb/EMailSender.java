@@ -5,7 +5,7 @@
  */
 package gob.sgi.ejb;
 
-import gob.sgi.model.Constante;
+import gob.sgi.constante.Constante;
 import gob.sgi.model.EstatusES;
 import gob.sgi.model.EstatusSolicitud;
 import gob.sgi.model.Mail;

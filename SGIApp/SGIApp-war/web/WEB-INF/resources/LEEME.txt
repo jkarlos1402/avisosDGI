@@ -1,0 +1,9 @@
+Dentro del contenido de cada archivo html se puede incluir las siguientes 
+palabras reservadas:
+
+- $idBanco
+- $idSolicitud
+- $estatusSolicitud
+- $estatusES
+- $nombreUE
+- $direccionSGI

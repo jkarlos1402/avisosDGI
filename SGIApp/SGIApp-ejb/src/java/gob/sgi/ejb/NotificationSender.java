@@ -1,6 +1,6 @@
 package gob.sgi.ejb;
 
-import gob.sgi.model.Constante;
+import gob.sgi.constante.Constante;
 import gob.sgi.model.Mail;
 import gob.sgi.model.Notificacion;
 import java.util.List;

@@ -1,5 +1,6 @@
 package gob.sgi.ws;
 
+import gob.sgi.constante.Constante;
 import gob.sgi.model.Mail;
 import java.util.ArrayList;
 import javax.ws.rs.FormParam;
@@ -77,7 +78,7 @@ public class MailWS {
     @Path("/setNotification")
     @POST
     @Produces({MediaType.APPLICATION_JSON})
-    public Response setNotificacion(@FormParam("idNotificacion") String idNotificacion, @FormParam("estatus") String estatus) {        
+    public Response setNotificacion(@FormParam("idNotificacion") String idNotificacion, @FormParam("estatus") String estatus) {                
         JsonObject jsonObject = null;
         try (QueueConnection connection = connectionFactory.createQueueConnection()) {
             QueueSession queueSession = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -102,7 +103,7 @@ public class MailWS {
         return Response.ok(jsonObject.toString())
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-                .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
+                .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();        
     }
 
 }
