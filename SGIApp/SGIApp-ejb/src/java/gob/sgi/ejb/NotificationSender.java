@@ -1,7 +1,7 @@
 package gob.sgi.ejb;
 
 import gob.sgi.constante.Constante;
-import gob.sgi.model.Mail;
+import gob.sgi.dto.Mail;
 import gob.sgi.model.Notificacion;
 import java.util.List;
 import java.util.Calendar;
@@ -28,6 +28,15 @@ public class NotificationSender {
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
                         notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> ah sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora()+"</b>");
+                        em.persist(notificacion);
+                    }
+                } else if(mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_INGRESADA)){
+                    for (String idUsuario : idUsuarioDestino) {
+                        notificacion = new Notificacion();
+                        notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
+                        notificacion.setIdUsu(Integer.parseInt(idUsuario));
+                        notificacion.setLeido(false);
+                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> presentaba observaciones menores y ah sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora()+"</b>");
                         em.persist(notificacion);
                     }
                 } else if (mail.getEstatusBco().equals(Constante.ESTATUS_ES_ENVIADO)) {

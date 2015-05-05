@@ -1,4 +1,4 @@
-package gob.sgi.model;
+package gob.sgi.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -162,6 +162,11 @@ public class Mail implements Serializable {
 
     public void setCco(List<String> cco) {
         this.cco = cco;
+    }
+
+    @Override
+    public String toString() {
+        return "Mail{" + "header=" + header + ", body=" + body + ", footer=" + footer + ", subject=" + subject + ", sender=" + sender + ", recipients=" + recipients + ", cc=" + cc + ", cco=" + cco + ", idSolicitud=" + idSolicitud + ", idUsuario=" + idUsuario + ", idRolUsu=" + idRolUsu + ", tipoSolicitud=" + tipoSolicitud + ", estatusSolicitud=" + estatusSolicitud + ", idObra=" + idObra + ", idBco=" + idBco + ", unidadEjecutora=" + unidadEjecutora + ", estatusBco=" + estatusBco + '}';
     }
 
 }

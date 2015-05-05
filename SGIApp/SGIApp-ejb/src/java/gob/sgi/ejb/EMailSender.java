@@ -8,7 +8,7 @@ package gob.sgi.ejb;
 import gob.sgi.constante.Constante;
 import gob.sgi.model.EstatusES;
 import gob.sgi.model.EstatusSolicitud;
-import gob.sgi.model.Mail;
+import gob.sgi.dto.Mail;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -37,7 +37,7 @@ public class EMailSender {
         StringBuilder body = new StringBuilder();
         StringBuilder footer = new StringBuilder();
         String tipoBody = "";
-        try {// encabezado del correo
+        try {// encabezado del correo            
             FileReader fileReader = new FileReader(Constante.HEADER_PATH);
             try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
                 while ((linea = bufferedReader.readLine()) != null) {
@@ -51,9 +51,11 @@ public class EMailSender {
         }
         switch (mail.getIdRolUsu()) {
             case Constante.ROL_DEPENDENCIA://dependencia es la que genera la notificacion
-                if (mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_ENVIADA)) {//solicitud enviada a revision
+                if (mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_ENVIADA)) {
                     tipoBody = Constante.SOL_ENV_BODY_PATH;
-                } else if (mail.getEstatusBco().equals(Constante.ESTATUS_ES_ENVIADO)) {//estudio socioeconomico enviado a revision
+                } else if (mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_INGRESADA)) {
+                    tipoBody = Constante.SOL_ENV_BODY_PATH;
+                } else if (mail.getEstatusBco().equals(Constante.ESTATUS_ES_ENVIADO)) {
                     tipoBody = Constante.ES_ENV_BODY_PATH;
                 }
                 break;
@@ -156,7 +158,7 @@ public class EMailSender {
             for (String recipient : mail.getRecipients()) {
                 msg.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             }
-            Transport.send(msg);            
+            Transport.send(msg);
         } catch (Exception mex) {
             System.out.println("Exception: " + mex.getMessage());
         }

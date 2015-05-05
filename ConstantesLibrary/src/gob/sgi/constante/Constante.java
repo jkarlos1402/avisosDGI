@@ -48,10 +48,10 @@ public class Constante {
     public static final String ROL_VENTANILLA = "4";
 
     //estatus de solicitud    
-    public static final String ESTATUS_SOL_ENVIADA ="3";
+    public static final String ESTATUS_SOL_ENVIADA = "3";
     public static final String ESTATUS_SOL_INGRESADA = "4";
-    public static final String ESTATUS_SOL_REVISADA ="5";
-    public static final String ESTATUS_SOL_ACEPTADA="6";
+    public static final String ESTATUS_SOL_REVISADA = "5";
+    public static final String ESTATUS_SOL_ACEPTADA = "6";
 
     // estaus de estudio socioeconomico
     public static final String ESTATUS_ES_CREADO = "1";
@@ -68,7 +68,7 @@ public class Constante {
         Properties propiedades = new Properties();
 
         try {
-            propiedades.load(new FileInputStream(FILE_CONF_PATH+"constantes.properties"));
+            propiedades.load(new FileInputStream(FILE_CONF_PATH + "/constantes.properties"));
         } catch (FileNotFoundException ex) {
             System.out.println("FileNotFoundException: " + ex.getMessage());
         } catch (IOException ex) {
@@ -83,22 +83,22 @@ public class Constante {
         STR_NOM_UE = propiedades.getProperty("STR_NOM_UE") != null ? propiedades.getProperty("STR_NOM_UE") : "";
         STR_DIR_SGI = propiedades.getProperty("STR_DIR_SGI") != null ? propiedades.getProperty("STR_DIR_SGI") : "";
 
-        HEADER_PATH = FILES_HTML_PATH + propiedades.getProperty("HEADER_PATH") != null ? propiedades.getProperty("HEADER_PATH") : "";
-        SOL_ENV_BODY_PATH = FILES_HTML_PATH + propiedades.getProperty("SOL_ENV_BODY_PATH") != null ? propiedades.getProperty("SOL_ENV_BODY_PATH") : "";
-        SOL_OBS_BODY_PATH = FILES_HTML_PATH + propiedades.getProperty("SOL_OBS_BODY_PATH") != null ? propiedades.getProperty("SOL_OBS_BODY_PATH") : "";
-        SOL_ACEPT_BODY_PATH = FILES_HTML_PATH + propiedades.getProperty("SOL_ACEPT_BODY_PATH") != null ? propiedades.getProperty("SOL_ACEPT_BODY_PATH") : "";
-        SOL_INGRESO_BODY_PATH = FILES_HTML_PATH + propiedades.getProperty("SOL_INGRESO_BODY_PATH") != null ? propiedades.getProperty("SOL_INGRESO_BODY_PATH") : "";
-        ES_ENV_BODY_PATH = FILES_HTML_PATH + propiedades.getProperty("ES_ENV_BODY_PATH") != null ? propiedades.getProperty("ES_ENV_BODY_PATH") : "";
-        ES_INGRESO_BODY_PATH = FILES_HTML_PATH + propiedades.getProperty("ES_INGRESO_BODY_PATH") != null ? propiedades.getProperty("ES_INGRESO_BODY_PATH") : "";
-        ES_OBS_BODY_PATH = FILES_HTML_PATH + propiedades.getProperty("ES_OBS_BODY_PATH") != null ? propiedades.getProperty("ES_OBS_BODY_PATH") : "";
-        ES_DICT_BODY_PATH = FILES_HTML_PATH + propiedades.getProperty("ES_DICT_BODY_PATH") != null ? propiedades.getProperty("ES_DICT_BODY_PATH") : "";
-        OBR_CREADA_BODY_PATH = FILES_HTML_PATH + propiedades.getProperty("OBR_CREADA_BODY_PATH") != null ? propiedades.getProperty("OBR_CREADA_BODY_PATH") : "";
-        FOOTER_PATH = FILES_HTML_PATH + propiedades.getProperty("FOOTER_PATH") != null ? propiedades.getProperty("FOOTER_PATH") : "";
+        HEADER_PATH = propiedades.getProperty("HEADER_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("HEADER_PATH") : "";
+        SOL_ENV_BODY_PATH = propiedades.getProperty("SOL_ENV_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_ENV_BODY_PATH") : "";
+        SOL_OBS_BODY_PATH = propiedades.getProperty("SOL_OBS_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_OBS_BODY_PATH") : "";
+        SOL_ACEPT_BODY_PATH = propiedades.getProperty("SOL_ACEPT_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_ACEPT_BODY_PATH") : "";
+        SOL_INGRESO_BODY_PATH = propiedades.getProperty("SOL_INGRESO_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_INGRESO_BODY_PATH") : "";
+        ES_ENV_BODY_PATH = propiedades.getProperty("ES_ENV_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_ENV_BODY_PATH") : "";
+        ES_INGRESO_BODY_PATH = propiedades.getProperty("ES_INGRESO_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_INGRESO_BODY_PATH") : "";
+        ES_OBS_BODY_PATH = propiedades.getProperty("ES_OBS_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_OBS_BODY_PATH") : "";
+        ES_DICT_BODY_PATH = propiedades.getProperty("ES_DICT_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_DICT_BODY_PATH") : "";
+        OBR_CREADA_BODY_PATH = propiedades.getProperty("OBR_CREADA_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("OBR_CREADA_BODY_PATH") : "";
+        FOOTER_PATH = propiedades.getProperty("FOOTER_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("FOOTER_PATH") : "";
 
         SMTP_HOST = propiedades.getProperty("SMTP_HOST") != null ? propiedades.getProperty("SMTP_HOST") : "";
         SMTP_PORT = propiedades.getProperty("SMTP_PORT") != null ? propiedades.getProperty("SMTP_PORT") : "";
         SMTP_USER = propiedades.getProperty("SMTP_USER") != null ? propiedades.getProperty("SMTP_USER") : "";
-        SMTP_PASSWORD = propiedades.getProperty("SMTP_PASSWORD") != null ? propiedades.getProperty("SMTP_PASSWORD") : "";               
+        SMTP_PASSWORD = propiedades.getProperty("SMTP_PASSWORD") != null ? propiedades.getProperty("SMTP_PASSWORD") : "";
 
         DIR_SGI = propiedades.getProperty("DIR_SGI") != null ? propiedades.getProperty("DIR_SGI") : "";
     }

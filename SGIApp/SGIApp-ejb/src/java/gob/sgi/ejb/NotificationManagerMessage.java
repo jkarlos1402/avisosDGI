@@ -6,7 +6,7 @@
 package gob.sgi.ejb;
 
 import gob.sgi.constante.Constante;
-import gob.sgi.model.Mail;
+import gob.sgi.dto.Mail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,14 +48,14 @@ public class NotificationManagerMessage implements MessageListener {
     public void onMessage(Message message) {
         ObjectMessage objectMessage = null;
         Mail mail = null;
-        Connection conSGI = null;
-        Connection conUsu = null;
+        Connection conSGI = null;        
         if (message instanceof ObjectMessage) {
             objectMessage = (ObjectMessage) message;
         }
 
         try {
             mail = (Mail) objectMessage.getObject();
+            System.out.println(mail.toString());
             PreparedStatement statement = null;          
             //Se recuperan los destinatarios del correo dependiendo del rol del usuario que realizo la peticion
             conSGI = dsSGIDB.getConnection();
@@ -74,7 +74,7 @@ public class NotificationManagerMessage implements MessageListener {
                                 + "(select idSec from rususec where idUsu = ? limit 1)) and idRol = 3 limit 1)");
                         statement.setInt(1, Integer.parseInt(mail.getIdUsuario()));
                     } else if (!mail.getIdBco().equals("")) {
-                        statement = conUsu.prepareStatement("select idusu,emailUsu from infousuario where idusu in (select idusu from usuarios where idRol = 2)");                        
+                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in (select idusu from ctrlusuarios.usuarios where idRol = 2)");                        
                     }
                     if (statement != null) {
                         rs = statement.executeQuery();
