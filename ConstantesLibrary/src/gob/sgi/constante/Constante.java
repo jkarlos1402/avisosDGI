@@ -34,6 +34,7 @@ public class Constante {
     public static final String ES_DICT_BODY_PATH;
     public static final String OBR_CREADA_BODY_PATH;
     public static final String FOOTER_PATH;
+    public static final String SOL_NO_ACTIVIDAD_BODY_PATH;
 
     //configuracion del servidor smtp
     public static final String SMTP_HOST;
@@ -42,6 +43,7 @@ public class Constante {
     public static final String SMTP_PASSWORD;
 
     //roles de usuario
+    public static final String ROL_SISTEMA = "0";
     public static final String ROL_DEPENDENCIA = "1";
     public static final String ROL_BANCO = "2";
     public static final String ROL_AREA = "3";
@@ -63,6 +65,10 @@ public class Constante {
 
     //direccion web del sgi
     public static final String DIR_SGI;
+    
+    // periodo de fechas para las solicitudes
+    public static final Integer VIGENCIA_SOL_OBS; 
+    public static final Integer DIAS_TO_SEND_NOTIFICACION_SOL; 
 
     static {
         Properties propiedades = new Properties();
@@ -101,5 +107,10 @@ public class Constante {
         SMTP_PASSWORD = propiedades.getProperty("SMTP_PASSWORD") != null ? propiedades.getProperty("SMTP_PASSWORD") : "";
 
         DIR_SGI = propiedades.getProperty("DIR_SGI") != null ? propiedades.getProperty("DIR_SGI") : "";
+        
+        VIGENCIA_SOL_OBS = propiedades.getProperty("VIGENCIA_SOL_OBS") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_SOL_OBS")) : 0;
+        DIAS_TO_SEND_NOTIFICACION_SOL = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_SOL") != null ? Integer.parseInt(propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_SOL")) : 0;
+        
+        SOL_NO_ACTIVIDAD_BODY_PATH = propiedades.getProperty("SOL_NO_ACTIVIDAD_BODY_PATH") != null ? propiedades.getProperty("SOL_NO_ACTIVIDAD_BODY_PATH") : "";
     }
 }

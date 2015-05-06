@@ -45,9 +45,9 @@ public class EMailSender {
                 }
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException: " + ex.getMessage());
+            System.out.println("FileNotFoundException header: " + ex.getMessage());
         } catch (IOException ex) {
-            System.out.println("IOException: " + ex.getMessage());
+            System.out.println("IOException header: " + ex.getMessage());
         }
         switch (mail.getIdRolUsu()) {
             case Constante.ROL_DEPENDENCIA://dependencia es la que genera la notificacion
@@ -86,6 +86,11 @@ public class EMailSender {
                     tipoBody = Constante.SOL_INGRESO_BODY_PATH;
                 }
                 break;
+            case Constante.ROL_SISTEMA:
+                if(!mail.getIdSolicitud().equals("")){
+                    tipoBody = Constante.SOL_NO_ACTIVIDAD_BODY_PATH;
+                }
+                break;
         }
         try {// cuerpo del correo dependiendo del tipo de notificacion
             FileReader fileReader = new FileReader(tipoBody);
@@ -95,9 +100,9 @@ public class EMailSender {
                 }
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException: " + ex.getMessage());
+            System.out.println("FileNotFoundException body email: " + ex.getMessage());
         } catch (IOException ex) {
-            System.out.println("IOException: " + ex.getMessage());
+            System.out.println("IOException body email: " + ex.getMessage());
         }
         try {//pie del correo
             FileReader fileReader = new FileReader(Constante.FOOTER_PATH);
@@ -107,9 +112,9 @@ public class EMailSender {
                 }
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException: " + ex.getMessage());
+            System.out.println("FileNotFoundException footer email: " + ex.getMessage());
         } catch (IOException ex) {
-            System.out.println("IOException: " + ex.getMessage());
+            System.out.println("IOException footer email: " + ex.getMessage());
         }
         // se sustituyen palabras reservadas dentro del texto del correo
         mail.setHeader(header.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud() : "")

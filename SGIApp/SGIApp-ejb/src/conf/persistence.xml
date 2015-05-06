@@ -3,6 +3,7 @@
   <persistence-unit name="SGIApp-ejbPU" transaction-type="JTA">
     <jta-data-source>SGIDB</jta-data-source>
     <class>gob.sgi.model.Notificacion</class>
+    <class>gob.sgi.model.Psolicitud</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

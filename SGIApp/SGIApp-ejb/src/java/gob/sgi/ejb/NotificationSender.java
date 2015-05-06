@@ -136,6 +136,19 @@ public class NotificationSender {
                     }
                 }
                 break;
+            case Constante.ROL_SISTEMA:
+                if(!mail.getIdSolicitud().equals("")){
+                    for (String idUsuario : idUsuarioDestino) {
+                        Calendar fechaEnvio = Calendar.getInstance();
+                        notificacion = new Notificacion();
+                        notificacion.setFechaNotificacion(fechaEnvio.getTime());
+                        notificacion.setIdUsu(Integer.parseInt(idUsuario));
+                        notificacion.setLeido(false);
+                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud()+"</b>, no presenta actividad, si en los pr\u00f3ximos <b>"+Constante.DIAS_TO_SEND_NOTIFICACION_SOL+"</b> d\u00edas no es enviada a revisi\u00f3n ser\u00e1 <b>CANCELADA</b>.");
+                        em.persist(notificacion);
+                    }
+                }
+                break;
         }
         return null;
     }

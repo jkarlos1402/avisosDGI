@@ -36,11 +36,11 @@ import javax.sql.DataSource;
 public class NotificationManagerMessage implements MessageListener {
 
     @EJB
-    private EMailSender eMailSender;       
+    private EMailSender eMailSender;
 
     @Resource(lookup = "SGIDB")
-    DataSource dsSGIDB;    
-    
+    DataSource dsSGIDB;
+
     @EJB
     private NotificationSender notificationSender;
 
@@ -48,7 +48,7 @@ public class NotificationManagerMessage implements MessageListener {
     public void onMessage(Message message) {
         ObjectMessage objectMessage = null;
         Mail mail = null;
-        Connection conSGI = null;        
+        Connection conSGI = null;
         if (message instanceof ObjectMessage) {
             objectMessage = (ObjectMessage) message;
         }
@@ -56,7 +56,7 @@ public class NotificationManagerMessage implements MessageListener {
         try {
             mail = (Mail) objectMessage.getObject();
             System.out.println(mail.toString());
-            PreparedStatement statement = null;          
+            PreparedStatement statement = null;
             //Se recuperan los destinatarios del correo dependiendo del rol del usuario que realizo la peticion
             conSGI = dsSGIDB.getConnection();
 //            conUsu = dsUsuariosDB.getConnection();
@@ -74,13 +74,13 @@ public class NotificationManagerMessage implements MessageListener {
                                 + "(select idSec from rususec where idUsu = ? limit 1)) and idRol = 3 limit 1)");
                         statement.setInt(1, Integer.parseInt(mail.getIdUsuario()));
                     } else if (!mail.getIdBco().equals("")) {
-                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in (select idusu from ctrlusuarios.usuarios where idRol = 2)");                        
+                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in (select idusu from ctrlusuarios.usuarios where idRol = 2)");
                     }
                     if (statement != null) {
                         rs = statement.executeQuery();
                         while (rs.next()) {
                             recipients.add(rs.getString("emailUsu"));
-                            userRecipients.add(rs.getInt("idusu")+"");
+                            userRecipients.add(rs.getInt("idusu") + "");
                         }
                     }
                     statement = conSGI.prepareStatement("select NomUE from catue where IdUE = "
@@ -103,7 +103,7 @@ public class NotificationManagerMessage implements MessageListener {
                     rs = statement.executeQuery();
                     while (rs.next()) {
                         recipients.add(rs.getString("emailUsu"));
-                        userRecipients.add(rs.getInt("idusu")+"");
+                        userRecipients.add(rs.getInt("idusu") + "");
                     }
                     //se manda a persistir a base de datos
                     notificationSender.sendNotification(mail, userRecipients);
@@ -116,7 +116,7 @@ public class NotificationManagerMessage implements MessageListener {
                     rs = statement.executeQuery();
                     while (rs.next()) {
                         recipients.add(rs.getString("emailUsu"));
-                        userRecipients.add(rs.getInt("idusu")+"");
+                        userRecipients.add(rs.getInt("idusu") + "");
                     }
                     //se manda a persistir a base de datos
                     notificationSender.sendNotification(mail, userRecipients);
@@ -129,30 +129,41 @@ public class NotificationManagerMessage implements MessageListener {
                     rs = statement.executeQuery();
                     while (rs.next()) {
                         recipients.add(rs.getString("emailUsu"));
-                        userRecipients.add(rs.getInt("idusu")+"");
+                        userRecipients.add(rs.getInt("idusu") + "");
                     }
                     // se busca el correo del area a quien se le notificara
                     statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu = ("
                             + "select idusu from ctrlusuarios.usuarios "
                             + "where idUsu in (select idUsu from sgi2015.rususec where IdSec = "
                             + "(select idSec from sgi2015.rususec where idUsu = (select IdUsu from sgi2015.psolicitud where IdSol = ?) limit 1)) and idRol = 3 limit 1)");
-                    statement.setInt(1, Integer.parseInt(mail.getIdSolicitud()));                    
+                    statement.setInt(1, Integer.parseInt(mail.getIdSolicitud()));
                     rs = statement.executeQuery();
                     while (rs.next()) {
                         recipients.add(rs.getString("emailUsu"));
-                        userRecipients.add(rs.getInt("idusu")+"");
+                        userRecipients.add(rs.getInt("idusu") + "");
+                    }
+                    //se manda a persistir a base de datos
+                    notificationSender.sendNotification(mail, userRecipients);
+                    break;
+                case Constante.ROL_SISTEMA:
+                    statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu = ?");
+                    statement.setInt(1, Integer.parseInt(mail.getIdUsuario()));
+                    rs = statement.executeQuery();
+                    while (rs.next()) {
+                        recipients.add(rs.getString("emailUsu"));
+                        userRecipients.add(rs.getInt("idusu") + "");
                     }
                     //se manda a persistir a base de datos
                     notificationSender.sendNotification(mail, userRecipients);
                     break;
             }
-            mail.setRecipients(recipients);            
+            mail.setRecipients(recipients);
             // se envia correo a los correspondientes
             eMailSender.send(mail);
         } catch (JMSException ex) {
-            System.out.println("JMSException: "+ex.getMessage());
+            System.out.println("JMSException: " + ex.getMessage());
         } catch (SQLException ex) {
-            System.out.println("SQLException: "+ex.getMessage());
+            System.out.println("SQLException: " + ex.getMessage());
         }
     }
 
