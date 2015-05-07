@@ -27,16 +27,16 @@ public class NotificationSender {
                         notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> ah sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora()+"</b>");
+                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> ah sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora() + "</b>");
                         em.persist(notificacion);
                     }
-                } else if(mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_INGRESADA)){
+                } else if (mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_INGRESADA)) {
                     for (String idUsuario : idUsuarioDestino) {
                         notificacion = new Notificacion();
                         notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> presentaba observaciones menores y ah sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora()+"</b>");
+                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> presentaba observaciones menores y ah sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora() + "</b>");
                         em.persist(notificacion);
                     }
                 } else if (mail.getEstatusBco().equals(Constante.ESTATUS_ES_ENVIADO)) {
@@ -45,7 +45,7 @@ public class NotificationSender {
                         notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ah sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora()+"</b>");
+                        notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ah sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora() + "</b>");
                         em.persist(notificacion);
                     }
                 }
@@ -118,7 +118,7 @@ public class NotificationSender {
                         notificacion.setFechaNotificacion(fechaEnvio.getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("Se ha <b>CREADO</b> la <b>OBRA</b> con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdObra() + "</b>, correspondiente a la solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud()+"</b>");
+                        notificacion.setMensaje("Se ha <b>CREADO</b> la <b>OBRA</b> con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdObra() + "</b>, correspondiente a la solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b>");
                         em.persist(notificacion);
                     }
                 }
@@ -131,20 +131,30 @@ public class NotificationSender {
                         notificacion.setFechaNotificacion(fechaEnvio.getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("Se ha <b>INGRESADO</b> en ventanilla la solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud()+"</b>");
+                        notificacion.setMensaje("Se ha <b>INGRESADO</b> en ventanilla la solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b>");
                         em.persist(notificacion);
                     }
-                }
+                } 
                 break;
             case Constante.ROL_SISTEMA:
-                if(!mail.getIdSolicitud().equals("")){
+                if (!mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud() == null) {
                     for (String idUsuario : idUsuarioDestino) {
                         Calendar fechaEnvio = Calendar.getInstance();
                         notificacion = new Notificacion();
                         notificacion.setFechaNotificacion(fechaEnvio.getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud()+"</b>, no presenta actividad, si en los pr\u00f3ximos <b>"+Constante.DIAS_TO_SEND_NOTIFICACION_SOL+"</b> d\u00edas no es enviada a revisi\u00f3n ser\u00e1 <b>CANCELADA</b>.");
+                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b>, no presenta actividad, si en los pr\u00f3ximos <b>" + Constante.DIAS_TO_SEND_NOTIFICACION_SOL + "</b> d\u00edas no es enviada a revisi\u00f3n ser\u00e1 <b>CANCELADA</b>.");
+                        em.persist(notificacion);
+                    }
+                }else if (!mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_CANCELADA)) {
+                   for (String idUsuario : idUsuarioDestino) {
+                        Calendar fechaEnvio = Calendar.getInstance();
+                        notificacion = new Notificacion();
+                        notificacion.setFechaNotificacion(fechaEnvio.getTime());
+                        notificacion.setIdUsu(Integer.parseInt(idUsuario));
+                        notificacion.setLeido(false);
+                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b>, ah sido <b>CANCELADA</b> por falta de actividad");
                         em.persist(notificacion);
                     }
                 }

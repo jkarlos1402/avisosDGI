@@ -17,6 +17,7 @@ public class Constante {
     public static final String STR_ESTATUS_ES;
     public static final String STR_NOM_UE;
     public static final String STR_DIR_SGI;
+    public static final String STR_DIAS_CANCELACION;
 
     //ruta de la carpeta de recursos
     public static final String FILES_HTML_PATH = "C:/DGI/resources";
@@ -35,6 +36,7 @@ public class Constante {
     public static final String OBR_CREADA_BODY_PATH;
     public static final String FOOTER_PATH;
     public static final String SOL_NO_ACTIVIDAD_BODY_PATH;
+    public static final String SOL_CANCELADA_BODY_PATH;
 
     //configuracion del servidor smtp
     public static final String SMTP_HOST;
@@ -54,6 +56,7 @@ public class Constante {
     public static final String ESTATUS_SOL_INGRESADA = "4";
     public static final String ESTATUS_SOL_REVISADA = "5";
     public static final String ESTATUS_SOL_ACEPTADA = "6";
+    public static final String ESTATUS_SOL_CANCELADA = "7";
 
     // estaus de estudio socioeconomico
     public static final String ESTATUS_ES_CREADO = "1";
@@ -65,10 +68,14 @@ public class Constante {
 
     //direccion web del sgi
     public static final String DIR_SGI;
-    
+
     // periodo de fechas para las solicitudes
-    public static final Integer VIGENCIA_SOL_OBS; 
-    public static final Integer DIAS_TO_SEND_NOTIFICACION_SOL; 
+    public static final Integer VIGENCIA_SOL_OBS;
+    public static final Integer DIAS_TO_SEND_NOTIFICACION_SOL;
+
+    // periodo de fechas para las solicitudes
+    public static final Integer VIGENCIA_ES_OBS;
+    public static final Integer DIAS_TO_SEND_NOTIFICACION_ES;
 
     static {
         Properties propiedades = new Properties();
@@ -88,12 +95,15 @@ public class Constante {
         STR_ESTATUS_ES = propiedades.getProperty("STR_ESTATUS_ES") != null ? propiedades.getProperty("STR_ESTATUS_ES") : "";
         STR_NOM_UE = propiedades.getProperty("STR_NOM_UE") != null ? propiedades.getProperty("STR_NOM_UE") : "";
         STR_DIR_SGI = propiedades.getProperty("STR_DIR_SGI") != null ? propiedades.getProperty("STR_DIR_SGI") : "";
+        STR_DIAS_CANCELACION = propiedades.getProperty("STR_DIAS_CANCELACION") != null ? propiedades.getProperty("STR_DIAS_CANCELACION") : "";
 
         HEADER_PATH = propiedades.getProperty("HEADER_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("HEADER_PATH") : "";
         SOL_ENV_BODY_PATH = propiedades.getProperty("SOL_ENV_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_ENV_BODY_PATH") : "";
         SOL_OBS_BODY_PATH = propiedades.getProperty("SOL_OBS_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_OBS_BODY_PATH") : "";
         SOL_ACEPT_BODY_PATH = propiedades.getProperty("SOL_ACEPT_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_ACEPT_BODY_PATH") : "";
         SOL_INGRESO_BODY_PATH = propiedades.getProperty("SOL_INGRESO_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_INGRESO_BODY_PATH") : "";
+        SOL_CANCELADA_BODY_PATH = propiedades.getProperty("SOL_CANCELADA_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_CANCELADA_BODY_PATH") : "";
+        SOL_NO_ACTIVIDAD_BODY_PATH = propiedades.getProperty("SOL_NO_ACTIVIDAD_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_NO_ACTIVIDAD_BODY_PATH") : "";
         ES_ENV_BODY_PATH = propiedades.getProperty("ES_ENV_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_ENV_BODY_PATH") : "";
         ES_INGRESO_BODY_PATH = propiedades.getProperty("ES_INGRESO_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_INGRESO_BODY_PATH") : "";
         ES_OBS_BODY_PATH = propiedades.getProperty("ES_OBS_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_OBS_BODY_PATH") : "";
@@ -107,10 +117,11 @@ public class Constante {
         SMTP_PASSWORD = propiedades.getProperty("SMTP_PASSWORD") != null ? propiedades.getProperty("SMTP_PASSWORD") : "";
 
         DIR_SGI = propiedades.getProperty("DIR_SGI") != null ? propiedades.getProperty("DIR_SGI") : "";
-        
+
         VIGENCIA_SOL_OBS = propiedades.getProperty("VIGENCIA_SOL_OBS") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_SOL_OBS")) : 0;
         DIAS_TO_SEND_NOTIFICACION_SOL = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_SOL") != null ? Integer.parseInt(propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_SOL")) : 0;
         
-        SOL_NO_ACTIVIDAD_BODY_PATH = propiedades.getProperty("SOL_NO_ACTIVIDAD_BODY_PATH") != null ? propiedades.getProperty("SOL_NO_ACTIVIDAD_BODY_PATH") : "";
+        VIGENCIA_ES_OBS = propiedades.getProperty("VIGENCIA_ES_OBS") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_OBS")) : 0;
+        DIAS_TO_SEND_NOTIFICACION_ES = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES") != null ? Integer.parseInt(propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES")) : 0;
     }
 }
