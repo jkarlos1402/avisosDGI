@@ -4,8 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Constante {
 
@@ -37,6 +35,10 @@ public class Constante {
     public static final String FOOTER_PATH;
     public static final String SOL_NO_ACTIVIDAD_BODY_PATH;
     public static final String SOL_CANCELADA_BODY_PATH;
+    public static final String ES_NO_ACTIVIDAD_BODY_PATH;
+    public static final String ES_CANCELADO_BODY_PATH;
+    public static final String ES_NO_ACTIVIDAD_DICT_BODY_PATH;
+    public static final String ES_VENCIDO_BODY_PATH;
 
     //configuracion del servidor smtp
     public static final String SMTP_HOST;
@@ -65,18 +67,39 @@ public class Constante {
     public static final String ESTATUS_ES_REVISADO = "5";
     public static final String ESTATUS_ES_OBSERVACIONES = "2";
     public static final String ESTATUS_ES_DICTAMINADO = "6";
+    public static final String ESTATUS_ES_CANCELADO = "7";
+    public static final String ESTATUS_ES_VENCIDO = "0";
+    public static final String ESTATUS_ES_BLOQUEADO;
 
     //direccion web del sgi
     public static final String DIR_SGI;
 
     // periodo de fechas para las solicitudes
     public static final Integer VIGENCIA_SOL_OBS;
-    public static final Integer DIAS_TO_SEND_NOTIFICACION_SOL;
+    public static final String DIAS_TO_SEND_NOTIFICACION_SOL;
 
-    // periodo de fechas para las solicitudes
+    // periodo de fechas para los estudios
     public static final Integer VIGENCIA_ES_OBS;
-    public static final Integer DIAS_TO_SEND_NOTIFICACION_ES;
+    public static final String DIAS_TO_SEND_NOTIFICACION_ES;
+    public static final Integer VIGENCIA_ES_DICTAMINACION;
+    public static final String DIAS_TO_SEND_NOTIFICACION_DICT_ES;
 
+    //vigencia de las notificaciones
+    public static final Integer VIGENCIA_NOTIFICACIONES;
+    
+    //horario para verificar solicitudes y estudios
+    public static final String ANHO="*";
+    public static final String MES_DEL_ANHO="*"; 
+    public static final String DIAS_DEL_MES="*";
+    public static final String DIA_DE_LA_SEMANA="*";
+    public static final String HORAS_DEL_DIA="17"; 
+    public static final String MINUTOS_DE_LA_HORA="30"; 
+    
+     
+    
+    
+    //horario para verificar notificaciones
+    
     static {
         Properties propiedades = new Properties();
 
@@ -108,6 +131,10 @@ public class Constante {
         ES_INGRESO_BODY_PATH = propiedades.getProperty("ES_INGRESO_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_INGRESO_BODY_PATH") : "";
         ES_OBS_BODY_PATH = propiedades.getProperty("ES_OBS_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_OBS_BODY_PATH") : "";
         ES_DICT_BODY_PATH = propiedades.getProperty("ES_DICT_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_DICT_BODY_PATH") : "";
+        ES_NO_ACTIVIDAD_BODY_PATH = propiedades.getProperty("ES_NO_ACTIVIDAD_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_NO_ACTIVIDAD_BODY_PATH") : "";
+        ES_CANCELADO_BODY_PATH = propiedades.getProperty("ES_CANCELADO_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_CANCELADO_BODY_PATH") : "";
+        ES_NO_ACTIVIDAD_DICT_BODY_PATH = propiedades.getProperty("ES_NO_ACTIVIDAD_DICT_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_NO_ACTIVIDAD_DICT_BODY_PATH") : "";
+        ES_VENCIDO_BODY_PATH = propiedades.getProperty("ES_VENCIDO_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("ES_VENCIDO_BODY_PATH") : "";
         OBR_CREADA_BODY_PATH = propiedades.getProperty("OBR_CREADA_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("OBR_CREADA_BODY_PATH") : "";
         FOOTER_PATH = propiedades.getProperty("FOOTER_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("FOOTER_PATH") : "";
 
@@ -119,9 +146,17 @@ public class Constante {
         DIR_SGI = propiedades.getProperty("DIR_SGI") != null ? propiedades.getProperty("DIR_SGI") : "";
 
         VIGENCIA_SOL_OBS = propiedades.getProperty("VIGENCIA_SOL_OBS") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_SOL_OBS")) : 0;
-        DIAS_TO_SEND_NOTIFICACION_SOL = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_SOL") != null ? Integer.parseInt(propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_SOL")) : 0;
-        
+        DIAS_TO_SEND_NOTIFICACION_SOL = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_SOL") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_SOL") : "0";
+
         VIGENCIA_ES_OBS = propiedades.getProperty("VIGENCIA_ES_OBS") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_OBS")) : 0;
-        DIAS_TO_SEND_NOTIFICACION_ES = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES") != null ? Integer.parseInt(propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES")) : 0;
+        DIAS_TO_SEND_NOTIFICACION_ES = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES") : "0";
+
+        VIGENCIA_ES_DICTAMINACION = propiedades.getProperty("VIGENCIA_ES_DICTAMINACION") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_DICTAMINACION")) : 0;
+        DIAS_TO_SEND_NOTIFICACION_DICT_ES = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES") : "0";
+
+        ESTATUS_ES_BLOQUEADO = propiedades.getProperty("ESTATUS_ES_BLOQUEADO") != null ? propiedades.getProperty("ESTATUS_ES_BLOQUEADO") : "";
+        
+        VIGENCIA_NOTIFICACIONES = propiedades.getProperty("VIGENCIA_NOTIFICACIONES") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_NOTIFICACIONES")) : 0;
+                
     }
 }

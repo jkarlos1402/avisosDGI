@@ -134,27 +134,67 @@ public class NotificationSender {
                         notificacion.setMensaje("Se ha <b>INGRESADO</b> en ventanilla la solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b>");
                         em.persist(notificacion);
                     }
-                } 
+                }
                 break;
             case Constante.ROL_SISTEMA:
-                if (!mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud() == null) {
+                if (mail.getEstatusSolicitud() == null && mail.getIdSolicitud() != null && !mail.getIdSolicitud().equals("")) {
                     for (String idUsuario : idUsuarioDestino) {
                         Calendar fechaEnvio = Calendar.getInstance();
                         notificacion = new Notificacion();
                         notificacion.setFechaNotificacion(fechaEnvio.getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
-                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b>, no presenta actividad, si en los pr\u00f3ximos <b>" + Constante.DIAS_TO_SEND_NOTIFICACION_SOL + "</b> d\u00edas no es enviada a revisi\u00f3n ser\u00e1 <b>CANCELADA</b>.");
+                        notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b>, no presenta actividad, si en los pr\u00f3ximos <b>" + mail.getDiasParaNoticifacion() + "</b> d\u00edas no es enviada a revisi\u00f3n ser\u00e1 <b>CANCELADA</b>.");
                         em.persist(notificacion);
                     }
-                }else if (!mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_CANCELADA)) {
-                   for (String idUsuario : idUsuarioDestino) {
+                } else if (mail.getIdSolicitud() != null && !mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_CANCELADA)) {
+                    for (String idUsuario : idUsuarioDestino) {
                         Calendar fechaEnvio = Calendar.getInstance();
                         notificacion = new Notificacion();
                         notificacion.setFechaNotificacion(fechaEnvio.getTime());
                         notificacion.setIdUsu(Integer.parseInt(idUsuario));
                         notificacion.setLeido(false);
                         notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b>, ah sido <b>CANCELADA</b> por falta de actividad");
+                        em.persist(notificacion);
+                    }
+                } else if (mail.getEstatusBco() == null && mail.getIdBco() != null && !mail.getIdBco().equals("")) {
+                    for (String idUsuario : idUsuarioDestino) {
+                        Calendar fechaEnvio = Calendar.getInstance();
+                        notificacion = new Notificacion();
+                        notificacion.setFechaNotificacion(fechaEnvio.getTime());
+                        notificacion.setIdUsu(Integer.parseInt(idUsuario));
+                        notificacion.setLeido(false);
+                        notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco()+ "</b>, no presenta actividad, si en los pr\u00f3ximos <b>" + mail.getDiasParaNoticifacion() + "</b> d\u00edas no es enviado a revisi\u00f3n ser\u00e1 <b>CANCELADO</b>.");
+                        em.persist(notificacion);
+                    }
+                } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco().equals(Constante.ESTATUS_ES_CANCELADO)) {
+                    for (String idUsuario : idUsuarioDestino) {
+                        Calendar fechaEnvio = Calendar.getInstance();
+                        notificacion = new Notificacion();
+                        notificacion.setFechaNotificacion(fechaEnvio.getTime());
+                        notificacion.setIdUsu(Integer.parseInt(idUsuario));
+                        notificacion.setLeido(false);
+                        notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco()+ "</b>, ah sido <b>CANCELADO</b> por falta de actividad");
+                        em.persist(notificacion);
+                    }
+                }else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco() == null && mail.getIdUsuario() == null) {
+                    for (String idUsuario : idUsuarioDestino) {
+                        Calendar fechaEnvio = Calendar.getInstance();
+                        notificacion = new Notificacion();
+                        notificacion.setFechaNotificacion(fechaEnvio.getTime());
+                        notificacion.setIdUsu(Integer.parseInt(idUsuario));
+                        notificacion.setLeido(false);
+                        notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco()+ "</b>, a\u00fan <b>NO</b> se ah <b>DICTAMINADO</b>, cuenta con <b>" + mail.getDiasParaNoticifacion() + "</b> d\u00edas para revisarlo.");
+                        em.persist(notificacion);
+                    }
+                } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco().equals(Constante.ESTATUS_ES_VENCIDO) && mail.getIdUsuario() == null) {
+                    for (String idUsuario : idUsuarioDestino) {
+                        Calendar fechaEnvio = Calendar.getInstance();
+                        notificacion = new Notificacion();
+                        notificacion.setFechaNotificacion(fechaEnvio.getTime());
+                        notificacion.setIdUsu(Integer.parseInt(idUsuario));
+                        notificacion.setLeido(false);
+                        notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco()+ "</b>, se ha <b>VENCIDO</b> favor de revisarlo <b>URGENTEMENTE</b>");
                         em.persist(notificacion);
                     }
                 }

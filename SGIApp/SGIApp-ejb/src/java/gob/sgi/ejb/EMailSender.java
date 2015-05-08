@@ -87,10 +87,18 @@ public class EMailSender {
                 }
                 break;
             case Constante.ROL_SISTEMA:
-                if(!mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud() == null){
+                if (mail.getIdSolicitud() != null && !mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud() == null) {
                     tipoBody = Constante.SOL_NO_ACTIVIDAD_BODY_PATH;
-                }else if (!mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_CANCELADA)) {
+                } else if (mail.getIdSolicitud() != null && !mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_CANCELADA)) {
                     tipoBody = Constante.SOL_CANCELADA_BODY_PATH;
+                } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco() == null) {
+                    tipoBody = Constante.ES_NO_ACTIVIDAD_BODY_PATH;
+                } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco().equals(Constante.ESTATUS_ES_CANCELADO)) {
+                    tipoBody = Constante.ES_CANCELADO_BODY_PATH;
+                } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco() == null && mail.getIdUsuario() == null) {
+                    tipoBody = Constante.ES_NO_ACTIVIDAD_DICT_BODY_PATH;
+                } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco().equals(Constante.ESTATUS_ES_VENCIDO) && mail.getIdUsuario() == null) {
+                    tipoBody = Constante.ES_VENCIDO_BODY_PATH;
                 }
                 break;
         }
@@ -125,7 +133,7 @@ public class EMailSender {
                 .replace(Constante.STR_ESTATUS_ES, mail.getEstatusBco() != null ? EstatusES.val(mail.getEstatusBco()) : "")
                 .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : "")
                 .replace(Constante.STR_ID_OBRA, mail.getIdObra() != null ? mail.getIdObra() : "")
-                .replace(Constante.STR_DIAS_CANCELACION, Constante.DIAS_TO_SEND_NOTIFICACION_SOL+"")
+                .replace(Constante.STR_DIAS_CANCELACION, mail.getDiasParaNoticifacion() + "")
                 .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
         mail.setBody(body.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud() : "")
                 .replace(Constante.STR_ID_BANCO, mail.getIdBco() != null ? mail.getIdBco() : "")
@@ -133,7 +141,7 @@ public class EMailSender {
                 .replace(Constante.STR_ESTATUS_ES, mail.getEstatusBco() != null ? EstatusES.val(mail.getEstatusBco()) : "")
                 .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : "")
                 .replace(Constante.STR_ID_OBRA, mail.getIdObra() != null ? mail.getIdObra() : "")
-                .replace(Constante.STR_DIAS_CANCELACION, Constante.DIAS_TO_SEND_NOTIFICACION_SOL+"")
+                .replace(Constante.STR_DIAS_CANCELACION, mail.getDiasParaNoticifacion() + "")
                 .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
         mail.setFooter(footer.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud() : "")
                 .replace(Constante.STR_ID_BANCO, mail.getIdBco() != null ? mail.getIdBco() : "")
@@ -141,7 +149,7 @@ public class EMailSender {
                 .replace(Constante.STR_ESTATUS_ES, mail.getEstatusBco() != null ? EstatusES.val(mail.getEstatusBco()) : "")
                 .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : "")
                 .replace(Constante.STR_ID_OBRA, mail.getIdObra() != null ? mail.getIdObra() : "")
-                .replace(Constante.STR_DIAS_CANCELACION, Constante.DIAS_TO_SEND_NOTIFICACION_SOL+"")
+                .replace(Constante.STR_DIAS_CANCELACION, mail.getDiasParaNoticifacion() + "")
                 .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
         Properties props = new Properties();
         props.put("mail.smtp.user", Constante.SMTP_USER);

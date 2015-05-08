@@ -7,3 +7,4 @@ palabras reservadas:
 - $estatusES
 - $nombreUE
 - $direccionSGI
+- $diasCancelacion

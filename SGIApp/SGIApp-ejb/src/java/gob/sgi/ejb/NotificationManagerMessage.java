@@ -71,10 +71,10 @@ public class NotificationManagerMessage implements MessageListener {
                         statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu = ("
                                 + "select idusu from ctrlusuarios.usuarios "
                                 + "where idUsu in (select idUsu from sgi2015.rususec where IdSec = "
-                                + "(select idSec from rususec where idUsu = ? limit 1)) and idRol = 3 limit 1)");
+                                + "(select idSec from rususec where idUsu = ? limit 1)) and idRol = "+Constante.ROL_AREA+" limit 1)");
                         statement.setInt(1, Integer.parseInt(mail.getIdUsuario()));
                     } else if (!mail.getIdBco().equals("")) {
-                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in (select idusu from ctrlusuarios.usuarios where idRol = 2)");
+                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in (select idusu from ctrlusuarios.usuarios where idRol = "+Constante.ROL_BANCO+")");
                     }
                     if (statement != null) {
                         rs = statement.executeQuery();
@@ -135,7 +135,7 @@ public class NotificationManagerMessage implements MessageListener {
                     statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu = ("
                             + "select idusu from ctrlusuarios.usuarios "
                             + "where idUsu in (select idUsu from sgi2015.rususec where IdSec = "
-                            + "(select idSec from sgi2015.rususec where idUsu = (select IdUsu from sgi2015.psolicitud where IdSol = ?) limit 1)) and idRol = 3 limit 1)");
+                            + "(select idSec from sgi2015.rususec where idUsu = (select IdUsu from sgi2015.psolicitud where IdSol = ?) limit 1)) and idRol = "+Constante.ROL_AREA+" limit 1)");
                     statement.setInt(1, Integer.parseInt(mail.getIdSolicitud()));
                     rs = statement.executeQuery();
                     while (rs.next()) {
@@ -146,12 +146,21 @@ public class NotificationManagerMessage implements MessageListener {
                     notificationSender.sendNotification(mail, userRecipients);
                     break;
                 case Constante.ROL_SISTEMA:
-                    statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu = ?");
-                    statement.setInt(1, Integer.parseInt(mail.getIdUsuario()));
-                    rs = statement.executeQuery();
-                    while (rs.next()) {
-                        recipients.add(rs.getString("emailUsu"));
-                        userRecipients.add(rs.getInt("idusu") + "");
+                    if (mail.getIdBco() != null && mail.getIdUsuario() == null) {
+                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in (select idusu from ctrlusuarios.usuarios where idRol = "+Constante.ROL_BANCO+")");                        
+                        rs = statement.executeQuery();
+                        while (rs.next()) {
+                            recipients.add(rs.getString("emailUsu"));
+                            userRecipients.add(rs.getInt("idusu") + "");
+                        }
+                    } else {
+                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu = ?");
+                        statement.setInt(1, Integer.parseInt(mail.getIdUsuario()));
+                        rs = statement.executeQuery();
+                        while (rs.next()) {
+                            recipients.add(rs.getString("emailUsu"));
+                            userRecipients.add(rs.getInt("idusu") + "");
+                        }
                     }
                     //se manda a persistir a base de datos
                     notificationSender.sendNotification(mail, userRecipients);
