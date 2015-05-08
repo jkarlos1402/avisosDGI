@@ -63,12 +63,12 @@ public class TimerNotificationBean {
         for (int i = 0; i < diasVerificar.length; i++) {
             //se verifica el periodo para reenviar una solicitud despues de ser revisada por el area
             fechaActual = Calendar.getInstance();
-            System.out.println("dias para verificar solicitudes: " + diasVerificar[i]);
+//            System.out.println("dias para verificar solicitudes: " + diasVerificar[i]);
             fechaActual.add(Calendar.DAY_OF_YEAR, ((Constante.VIGENCIA_SOL_OBS * -1) + new Integer(diasVerificar[i])));
             fechaAComparar = fechaActual.getTime();
             queryPetitions = em.createQuery("SELECT p FROM Psolicitud p WHERE p.idEdoSol = " + Constante.ESTATUS_SOL_REVISADA + " AND p.fecEval = :fechaGenerada", Psolicitud.class);
             queryPetitions.setParameter("fechaGenerada", fechaAComparar, TemporalType.DATE);
-            System.out.println("fechaGenerada para envio de alerta de solicitud: " + fechaAComparar);
+//            System.out.println("fechaGenerada para envio de alerta de solicitud: " + fechaAComparar);
             petitions = queryPetitions.getResultList();
             try (QueueConnection connection = connectionFactory.createQueueConnection()) {
                 QueueSession queueSession = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -98,7 +98,7 @@ public class TimerNotificationBean {
             fechaAComparar = fechaActual.getTime();
             queryPetitions = em.createQuery("SELECT p FROM Psolicitud p WHERE p.idEdoSol = " + Constante.ESTATUS_SOL_REVISADA + " AND p.fecEval = :fechaGenerada", Psolicitud.class);
             queryPetitions.setParameter("fechaGenerada", fechaAComparar, TemporalType.DATE);
-            System.out.println("fechaGenerada para cancelar solicitud: " + fechaAComparar);
+//            System.out.println("fechaGenerada para cancelar solicitud: " + fechaAComparar);
             petitions = queryPetitions.getResultList();
             mail = null;
             try (QueueConnection connection = connectionFactory.createQueueConnection()) {
@@ -128,7 +128,7 @@ public class TimerNotificationBean {
         //se verifican estudios
         diasVerificar = Constante.DIAS_TO_SEND_NOTIFICACION_ES.split(",");
         for (int i = 0; i < diasVerificar.length; i++) {
-            System.out.println("dias para verificar estudios: " + diasVerificar[i]);
+//            System.out.println("dias para verificar estudios: " + diasVerificar[i]);
             queryStudies = em.createQuery("SELECT e FROM Relsolbco e WHERE e.status = " + Constante.ESTATUS_ES_OBSERVACIONES, Relsolbco.class);
             studies = queryStudies.getResultList();
             Movbco movbcoTemp = null;
@@ -142,10 +142,10 @@ public class TimerNotificationBean {
                 movStudies = queryMovStudies.setMaxResults(1).getResultList();
                 if (movStudies.size() > 0) {
                     em.refresh(movStudies.get(0));
-                    System.out.println("fecha a comparar para aviso de es: " + fechaAComparar);
+//                    System.out.println("fecha a comparar para aviso de es: " + fechaAComparar);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     if (sdf.format(movStudies.get(0).getFecMov()).equals(sdf.format(fechaAComparar))) {
-                        System.out.println("estudio encontrado: " + movStudies.get(0).getIdmovbco());
+//                        System.out.println("estudio encontrado: " + movStudies.get(0).getIdmovbco());
                         mail = null;
                         try (QueueConnection connection = connectionFactory.createQueueConnection()) {
                             QueueSession queueSession = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -171,9 +171,9 @@ public class TimerNotificationBean {
                     fechaActual = Calendar.getInstance();
                     fechaActual.add(Calendar.DAY_OF_YEAR, ((Constante.VIGENCIA_ES_OBS + 1) * -1));
                     fechaAComparar = fechaActual.getTime();
-                    System.out.println("fecha a comparar para cancelar es: " + fechaAComparar);
+//                    System.out.println("fecha a comparar para cancelar es: " + fechaAComparar);
                     if (sdf.format(movStudies.get(0).getFecMov()).equals(sdf.format(fechaAComparar))) {
-                        System.out.println("estudio a cancelar encontrado: " + movStudies.get(0).getIdmovbco());
+//                        System.out.println("estudio a cancelar encontrado: " + movStudies.get(0).getIdmovbco());
                         mail = null;
                         try (QueueConnection connection = connectionFactory.createQueueConnection()) {
                             QueueSession queueSession = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -209,7 +209,7 @@ public class TimerNotificationBean {
         //se verifican estudios a ser dictaminados
         diasVerificar = Constante.DIAS_TO_SEND_NOTIFICACION_DICT_ES.split(",");
         for (int i = 0; i < diasVerificar.length; i++) {
-            System.out.println("dias para verificar dictaminacion de es: " + diasVerificar[i]);
+//            System.out.println("dias para verificar dictaminacion de es: " + diasVerificar[i]);
             queryStudies = em.createQuery("SELECT e FROM Relsolbco e WHERE e.status = " + Constante.ESTATUS_ES_INGRESADO, Relsolbco.class);
             studies = queryStudies.getResultList();
             for (Relsolbco study : studies) {
@@ -222,10 +222,10 @@ public class TimerNotificationBean {
                 movStudies = queryMovStudies.setMaxResults(1).getResultList();
                 if (movStudies.size() > 0) {
                     em.refresh(movStudies.get(0));
-                    System.out.println("fecha a comparar para dic: " + fechaAComparar);
+//                    System.out.println("fecha a comparar para dic: " + fechaAComparar);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     if (sdf.format(movStudies.get(0).getFecMov()).equals(sdf.format(fechaAComparar))) {
-                        System.out.println("estudio a dictaminar encontrado: " + movStudies.get(0).getIdmovbco());
+//                        System.out.println("estudio a dictaminar encontrado: " + movStudies.get(0).getIdmovbco());
                         mail = null;
                         try (QueueConnection connection = connectionFactory.createQueueConnection()) {
                             QueueSession queueSession = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -251,9 +251,9 @@ public class TimerNotificationBean {
                     fechaActual = Calendar.getInstance();
                     fechaActual.add(Calendar.DAY_OF_YEAR, ((Constante.VIGENCIA_ES_DICTAMINACION + 1) * -1));
                     fechaAComparar = fechaActual.getTime();
-                    System.out.println("fecha a comparar para vencimiento de dictaminacion: " + fechaAComparar);
+//                    System.out.println("fecha a comparar para vencimiento de dictaminacion: " + fechaAComparar);
                     if (sdf.format(movStudies.get(0).getFecMov()).equals(sdf.format(fechaAComparar))) {
-                        System.out.println("estudio vencido encontrado: " + movStudies.get(0).getIdmovbco());
+//                        System.out.println("estudio vencido encontrado: " + movStudies.get(0).getIdmovbco());
                         mail = null;
                         try (QueueConnection connection = connectionFactory.createQueueConnection()) {
                             QueueSession queueSession = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -276,7 +276,7 @@ public class TimerNotificationBean {
                     }
                 }
             }
-            System.out.println("Fecha y hora del evento: " + new Date());
+//            System.out.println("Fecha y hora del evento: " + new Date());
         }
 
     }
@@ -287,9 +287,9 @@ public class TimerNotificationBean {
         fechaActual.add(Calendar.DAY_OF_YEAR, (Constante.VIGENCIA_NOTIFICACIONES * -1));
         Date fechaAComparar = fechaActual.getTime();
         Query queryNotificationsDelete = null;
-        System.out.println("fecha a verificar para eliminar notificaciones: "+fechaAComparar);
+//        System.out.println("fecha a verificar para eliminar notificaciones: "+fechaAComparar);
         queryNotificationsDelete = em.createQuery("DELETE FROM Notificacion n WHERE n.fechaNotificacion < :fechaGenerada");
         queryNotificationsDelete.setParameter("fechaGenerada", fechaAComparar, TemporalType.DATE);
-        System.out.println("Se eliminaron "+queryNotificationsDelete.executeUpdate()+" notificaciones.");
+//        System.out.println("Se eliminaron "+queryNotificationsDelete.executeUpdate()+" notificaciones.");
     }
 }

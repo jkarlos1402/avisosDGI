@@ -87,18 +87,13 @@ public class Constante {
     //vigencia de las notificaciones
     public static final Integer VIGENCIA_NOTIFICACIONES;
     
-    //horario para verificar solicitudes y estudios
+    //horario para verificar solicitudes, estudios y notificaciones
     public static final String ANHO="*";
     public static final String MES_DEL_ANHO="*"; 
     public static final String DIAS_DEL_MES="*";
     public static final String DIA_DE_LA_SEMANA="*";
-    public static final String HORAS_DEL_DIA="17"; 
+    public static final String HORAS_DEL_DIA="8"; 
     public static final String MINUTOS_DE_LA_HORA="30"; 
-    
-     
-    
-    
-    //horario para verificar notificaciones
     
     static {
         Properties propiedades = new Properties();
