@@ -290,6 +290,7 @@ public class TimerNotificationBean {
 //        System.out.println("fecha a verificar para eliminar notificaciones: "+fechaAComparar);
         queryNotificationsDelete = em.createQuery("DELETE FROM Notificacion n WHERE n.fechaNotificacion < :fechaGenerada");
         queryNotificationsDelete.setParameter("fechaGenerada", fechaAComparar, TemporalType.DATE);
-//        System.out.println("Se eliminaron "+queryNotificationsDelete.executeUpdate()+" notificaciones.");
+        int numNotifi = queryNotificationsDelete.executeUpdate();
+        System.out.println("Se eliminaron "+numNotifi+" notificaciones.");
     }
 }

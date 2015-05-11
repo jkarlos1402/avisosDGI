@@ -200,7 +200,7 @@ public class NotificationSender {
                 }
                 break;
         }
-        return null;
+        return true;
     }
 
 }
