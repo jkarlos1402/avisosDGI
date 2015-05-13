@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
@@ -49,21 +51,20 @@ public class NotificationManagerMessage implements MessageListener {
         ObjectMessage objectMessage = null;
         Mail mail = null;
         Connection conSGI = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         if (message instanceof ObjectMessage) {
             objectMessage = (ObjectMessage) message;
         }
-
         try {
             mail = (Mail) objectMessage.getObject();
             System.out.println(mail.toString());
-            PreparedStatement statement = null;
             //Se recuperan los destinatarios del correo dependiendo del rol del usuario que realizo la peticion
             conSGI = dsSGIDB.getConnection();
 //            conUsu = dsUsuariosDB.getConnection();
             List recipients = new ArrayList<>();
             List userRecipients = new ArrayList<>();
             String unidadEjecutora = "";
-            ResultSet rs;
             switch (mail.getIdRolUsu()) {
                 case Constante.ROL_DEPENDENCIA: //dependencia es la que genera la notificacion
                     // se procede a buscar el correo del área que le corresponde
@@ -173,6 +174,28 @@ public class NotificationManagerMessage implements MessageListener {
             System.out.println("JMSException: " + ex.getMessage());
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
+        } finally {
+            if(rs != null){
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    System.out.println("SQLException al cerrar resultSet: " + ex.getMessage());
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    System.out.println("SQLException al cerrar statement: " + ex.getMessage());
+                }
+            }  
+            if(conSGI != null){
+                try {
+                    conSGI.close();                    
+                } catch (SQLException ex) {
+                    System.out.println("SQLException al cerrar conSGI: " + ex.getMessage());
+                }
+            }
         }
     }
 
