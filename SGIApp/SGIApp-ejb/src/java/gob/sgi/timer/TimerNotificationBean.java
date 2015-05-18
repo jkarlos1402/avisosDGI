@@ -66,7 +66,7 @@ public class TimerNotificationBean {
 //            System.out.println("dias para verificar solicitudes: " + diasVerificar[i]);
             fechaActual.add(Calendar.DAY_OF_YEAR, ((Constante.VIGENCIA_SOL_OBS * -1) + new Integer(diasVerificar[i])));
             fechaAComparar = fechaActual.getTime();
-            queryPetitions = em.createQuery("SELECT p FROM Psolicitud p WHERE p.idEdoSol = " + Constante.ESTATUS_SOL_REVISADA + " AND p.fecEval = :fechaGenerada", Psolicitud.class);
+            queryPetitions = em.createQuery("SELECT p FROM Psolicitud p WHERE p.idEdoSol = " + Constante.ESTATUS_SOL_REVISADA + " AND p.idSolPre IS NOT NULL AND p.fecEval = :fechaGenerada", Psolicitud.class);
             queryPetitions.setParameter("fechaGenerada", fechaAComparar, TemporalType.DATE);
 //            System.out.println("fechaGenerada para envio de alerta de solicitud: " + fechaAComparar);
             petitions = queryPetitions.getResultList();
@@ -96,7 +96,7 @@ public class TimerNotificationBean {
             fechaActual = Calendar.getInstance();
             fechaActual.add(Calendar.DAY_OF_YEAR, ((Constante.VIGENCIA_SOL_OBS + 1) * -1));
             fechaAComparar = fechaActual.getTime();
-            queryPetitions = em.createQuery("SELECT p FROM Psolicitud p WHERE p.idEdoSol = " + Constante.ESTATUS_SOL_REVISADA + " AND p.fecEval = :fechaGenerada", Psolicitud.class);
+            queryPetitions = em.createQuery("SELECT p FROM Psolicitud p WHERE p.idEdoSol = " + Constante.ESTATUS_SOL_REVISADA + " AND p.idSolPre IS NOT NULL AND p.fecEval = :fechaGenerada", Psolicitud.class);
             queryPetitions.setParameter("fechaGenerada", fechaAComparar, TemporalType.DATE);
 //            System.out.println("fechaGenerada para cancelar solicitud: " + fechaAComparar);
             petitions = queryPetitions.getResultList();
