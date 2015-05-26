@@ -6,6 +6,7 @@
     <class>gob.sgi.model.Psolicitud</class>
     <class>gob.sgi.model.Relsolbco</class>
     <class>gob.sgi.model.Movbco</class>
+    <class>gob.sgi.model.Revisiontemporal</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
