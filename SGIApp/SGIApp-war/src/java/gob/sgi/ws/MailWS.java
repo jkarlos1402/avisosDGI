@@ -97,10 +97,10 @@ public class MailWS {
             jsonObject = Json.createObjectBuilder().add("respuesta", "Notificaci\u00f3n actualizada").build();
             //se cierra la conexion
             connection.close();
-        } catch (JMSException ex) {
-            System.out.println("JMSException: " + ex.getMessage());
-        } catch (NumberFormatException ne) {
-            System.out.println("NumberFormatException: " + ne.getMessage());
+        } catch (JMSException ex) {            
+            jsonObject = Json.createObjectBuilder().add("respuesta", "JMSException: " + ex.getMessage()).build();
+        } catch (NumberFormatException ne) {            
+            jsonObject = Json.createObjectBuilder().add("respuesta", "NumberFormatException: " + ne.getMessage()).build();
         }
 
         return Response.ok(jsonObject.toString())

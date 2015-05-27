@@ -160,23 +160,25 @@ public class EMailSender {
         props.put("mail.smtp.socketFactory.port", Constante.SMTP_PORT);
         props.put("mail.smtp.socketFactory.fallback", "false");
         try {
-            Session session = Session.getInstance(props,
-                    new javax.mail.Authenticator() {
-                        @Override
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(Constante.SMTP_USER, Constante.SMTP_PASSWORD);
-                        }
-                    });
-            session.setDebug(false);
+            if (!mail.getRecipients().isEmpty()) {
+                Session session = Session.getInstance(props,
+                        new javax.mail.Authenticator() {
+                            @Override
+                            protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication(Constante.SMTP_USER, Constante.SMTP_PASSWORD);
+                            }
+                        });
+                session.setDebug(false);
 
-            MimeMessage msg = new MimeMessage(session);
-            msg.setText(mail.getHeader().concat(mail.getBody()).concat(mail.getFooter()), "utf-8", "html");
-            msg.setSubject(mail.getSubject());
-            msg.setFrom(new InternetAddress(Constante.SMTP_USER));
-            for (String recipient : mail.getRecipients()) {
-                msg.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+                MimeMessage msg = new MimeMessage(session);
+                msg.setText(mail.getHeader().concat(mail.getBody()).concat(mail.getFooter()), "utf-8", "html");
+                msg.setSubject(mail.getSubject());
+                msg.setFrom(new InternetAddress(Constante.SMTP_USER));
+                for (String recipient : mail.getRecipients()) {
+                    msg.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+                }
+                Transport.send(msg);
             }
-            Transport.send(msg);
         } catch (Exception mex) {
             System.out.println("Exception: " + mex.getMessage());
         }

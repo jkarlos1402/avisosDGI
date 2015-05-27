@@ -13,11 +13,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-/**
- * Web application lifecycle listener.
- *
- * @author intel core i 7
- */
 public class StartUpListener implements ServletContextListener {
 
     @Override

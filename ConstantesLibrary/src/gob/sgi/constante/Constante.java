@@ -3,6 +3,7 @@ package gob.sgi.constante;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class Constante {
@@ -86,24 +87,33 @@ public class Constante {
 
     //vigencia de las notificaciones
     public static final Integer VIGENCIA_NOTIFICACIONES;
-    
+
     //horario para verificar solicitudes, estudios y notificaciones
-    public static final String ANHO="*";
-    public static final String MES_DEL_ANHO="*"; 
-    public static final String DIAS_DEL_MES="*";
-    public static final String DIA_DE_LA_SEMANA="*";
-    public static final String HORAS_DEL_DIA="*"; 
-    public static final String MINUTOS_DE_LA_HORA="*"; 
-    
+    public static final String ANHO = "*";
+    public static final String MES_DEL_ANHO = "*";
+    public static final String DIAS_DEL_MES = "*";
+    public static final String DIA_DE_LA_SEMANA = "*";
+    public static final String HORAS_DEL_DIA = "0";
+    public static final String MINUTOS_DE_LA_HORA = "1";
+
     static {
         Properties propiedades = new Properties();
-
+        InputStream stream = null;
         try {
-            propiedades.load(new FileInputStream(FILE_CONF_PATH + "/constantes.properties"));
+            stream = new FileInputStream(Constante.FILE_CONF_PATH + "/constantes.properties");
+            propiedades.load(stream);
         } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException: " + ex.getMessage());
+            System.out.println("FileNotFoundException properties: " + ex.getMessage());
         } catch (IOException ex) {
-            System.out.println("IOException: " + ex.getMessage());
+            System.out.println("IOException properties: " + ex.getMessage());
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    System.out.println("IOException properties: " + e.getMessage());
+                }
+            }
         }
         // Se obtienen los valores del archivo constantes.properites
         STR_ID_BANCO = propiedades.getProperty("STR_ID_BANCO") != null ? propiedades.getProperty("STR_ID_BANCO") : "";
@@ -150,8 +160,8 @@ public class Constante {
         DIAS_TO_SEND_NOTIFICACION_DICT_ES = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES") : "0";
 
         ESTATUS_ES_BLOQUEADO = propiedades.getProperty("ESTATUS_ES_BLOQUEADO") != null ? propiedades.getProperty("ESTATUS_ES_BLOQUEADO") : "";
-        
+
         VIGENCIA_NOTIFICACIONES = propiedades.getProperty("VIGENCIA_NOTIFICACIONES") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_NOTIFICACIONES")) : 0;
-                
+
     }
 }
