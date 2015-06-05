@@ -27,8 +27,17 @@ public class Mail implements Serializable {
     private String idBco;
     private String unidadEjecutora;
     private String estatusBco;
+    private String numDictamen;
     private Integer diasParaNoticifacion;
 
+    public String getNumDictamen() {
+        return numDictamen;
+    }
+
+    public void setNumDictamen(String numDictamen) {
+        this.numDictamen = numDictamen;
+    }
+    
     public Integer getDiasParaNoticifacion() {
         return diasParaNoticifacion;
     }

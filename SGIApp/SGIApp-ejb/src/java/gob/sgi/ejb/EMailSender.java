@@ -134,6 +134,7 @@ public class EMailSender {
                 .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : "")
                 .replace(Constante.STR_ID_OBRA, mail.getIdObra() != null ? mail.getIdObra() : "")
                 .replace(Constante.STR_DIAS_CANCELACION, mail.getDiasParaNoticifacion() + "")
+                .replace(Constante.STR_NUM_DICTAMEN, mail.getNumDictamen()+ "")
                 .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
         mail.setBody(body.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud() : "")
                 .replace(Constante.STR_ID_BANCO, mail.getIdBco() != null ? mail.getIdBco() : "")
@@ -142,6 +143,7 @@ public class EMailSender {
                 .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : "")
                 .replace(Constante.STR_ID_OBRA, mail.getIdObra() != null ? mail.getIdObra() : "")
                 .replace(Constante.STR_DIAS_CANCELACION, mail.getDiasParaNoticifacion() + "")
+                .replace(Constante.STR_NUM_DICTAMEN, mail.getNumDictamen()+ "")
                 .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
         mail.setFooter(footer.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud() : "")
                 .replace(Constante.STR_ID_BANCO, mail.getIdBco() != null ? mail.getIdBco() : "")
@@ -150,6 +152,7 @@ public class EMailSender {
                 .replace(Constante.STR_NOM_UE, mail.getUnidadEjecutora() != null ? mail.getUnidadEjecutora() : "")
                 .replace(Constante.STR_ID_OBRA, mail.getIdObra() != null ? mail.getIdObra() : "")
                 .replace(Constante.STR_DIAS_CANCELACION, mail.getDiasParaNoticifacion() + "")
+                .replace(Constante.STR_NUM_DICTAMEN, mail.getNumDictamen()+ "")
                 .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
         Properties props = new Properties();
         props.put("mail.smtp.user", Constante.SMTP_USER);

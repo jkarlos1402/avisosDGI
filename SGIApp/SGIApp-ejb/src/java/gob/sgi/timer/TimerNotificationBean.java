@@ -58,7 +58,7 @@ public class TimerNotificationBean {
     @PostConstruct
     private void init() {
         Properties propiedades = new Properties();
-        InputStream stream = null;
+        InputStream stream = null;        
         try {
             stream = new FileInputStream(Constante.FILE_CONF_PATH + "/constantes.properties");
             propiedades.load(stream);
@@ -66,6 +66,7 @@ public class TimerNotificationBean {
             TimerConfig timerConfig = new TimerConfig();
             timerConfig.setInfo("CalendarProgTimerDemo_Info");
             ScheduleExpression schedule = new ScheduleExpression();
+            System.out.println("Horario de revision de solicitudes: year " + propiedades.getProperty("YEAR_REVISION") + " - month " + propiedades.getProperty("MONTH_REVISION") + " - dayofmonth " + propiedades.getProperty("DAY_OF_MONTH_REVISION") + " - DAY_OF_WEEK_REVISION " + propiedades.getProperty("DAY_OF_WEEK_REVISION") + " - HOUR_REVISION " + propiedades.getProperty("HOUR_REVISION") + " - MINUTE_REVISION " + propiedades.getProperty("MINUTE_REVISION") + " - SECOND_REVISION " + propiedades.getProperty("SECOND_REVISION"));
             schedule.year(propiedades.getProperty("YEAR_REVISION")).month(propiedades.getProperty("MONTH_REVISION")).dayOfMonth(propiedades.getProperty("DAY_OF_MONTH_REVISION")).dayOfWeek(propiedades.getProperty("DAY_OF_WEEK_REVISION")).hour(propiedades.getProperty("HOUR_REVISION")).minute(propiedades.getProperty("MINUTE_REVISION")).second(propiedades.getProperty("SECOND_REVISION"));
             timerService.createCalendarTimer(schedule, timerConfig);
         } catch (FileNotFoundException ex) {
@@ -108,7 +109,7 @@ public class TimerNotificationBean {
 //            System.out.println("dias para verificar solicitudes: " + diasVerificar[i]);
                 fechaActual.add(Calendar.DAY_OF_YEAR, ((Constante.VIGENCIA_SOL_OBS * -1) + new Integer(diasVerificar[i])));
                 fechaAComparar = fechaActual.getTime();
-                queryPetitions = em.createQuery("SELECT p FROM Psolicitud p WHERE p.idEdoSol = " + Constante.ESTATUS_SOL_REVISADA + " AND p.idSolPre IS NOT NULL AND p.fecEval = :fechaGenerada", Psolicitud.class);
+                queryPetitions = em.createQuery("SELECT p FROM Psolicitud p WHERE p.idEdoSol = " + Constante.ESTATUS_SOL_REVISADA + " AND p.idSolPre IS NOT NULL AND p.fecEval = :fechaGenerada");
                 queryPetitions.setParameter("fechaGenerada", fechaAComparar, TemporalType.DATE);
 //            System.out.println("fechaGenerada para envio de alerta de solicitud: " + fechaAComparar);
                 petitions = queryPetitions.getResultList();
@@ -138,7 +139,7 @@ public class TimerNotificationBean {
                 fechaActual = Calendar.getInstance();
                 fechaActual.add(Calendar.DAY_OF_YEAR, ((Constante.VIGENCIA_SOL_OBS + 1) * -1));
                 fechaAComparar = fechaActual.getTime();
-                queryPetitions = em.createQuery("SELECT p FROM Psolicitud p WHERE p.idEdoSol = " + Constante.ESTATUS_SOL_REVISADA + " AND p.idSolPre IS NOT NULL AND p.fecEval = :fechaGenerada", Psolicitud.class);
+                queryPetitions = em.createQuery("SELECT p FROM Psolicitud p WHERE p.idEdoSol = " + Constante.ESTATUS_SOL_REVISADA + " AND p.idSolPre IS NOT NULL AND p.fecEval = :fechaGenerada");
                 queryPetitions.setParameter("fechaGenerada", fechaAComparar, TemporalType.DATE);
 //            System.out.println("fechaGenerada para cancelar solicitud: " + fechaAComparar);
                 petitions = queryPetitions.getResultList();
@@ -171,7 +172,7 @@ public class TimerNotificationBean {
             diasVerificar = Constante.DIAS_TO_SEND_NOTIFICACION_ES.split(",");
             for (int i = 0; i < diasVerificar.length; i++) {
 //            System.out.println("dias para verificar estudios: " + diasVerificar[i]);
-                queryStudies = em.createQuery("SELECT e FROM Relsolbco e WHERE e.status = " + Constante.ESTATUS_ES_OBSERVACIONES, Relsolbco.class);
+                queryStudies = em.createQuery("SELECT e FROM Relsolbco e WHERE e.status = " + Constante.ESTATUS_ES_OBSERVACIONES);
                 studies = queryStudies.getResultList();
                 Movbco movbcoTemp = null;
                 for (Relsolbco study : studies) {
@@ -252,7 +253,7 @@ public class TimerNotificationBean {
             diasVerificar = Constante.DIAS_TO_SEND_NOTIFICACION_DICT_ES.split(",");
             for (int i = 0; i < diasVerificar.length; i++) {
 //            System.out.println("dias para verificar dictaminacion de es: " + diasVerificar[i]);
-                queryStudies = em.createQuery("SELECT e FROM Relsolbco e WHERE e.status = " + Constante.ESTATUS_ES_INGRESADO, Relsolbco.class);
+                queryStudies = em.createQuery("SELECT e FROM Relsolbco e WHERE e.status = " + Constante.ESTATUS_ES_INGRESADO);
                 studies = queryStudies.getResultList();
                 for (Relsolbco study : studies) {
                     movStudies = null;

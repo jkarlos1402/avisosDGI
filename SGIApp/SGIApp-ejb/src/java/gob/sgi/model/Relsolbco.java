@@ -44,6 +44,8 @@ public class Relsolbco implements Serializable {
     @Column(name = "FecReg")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecReg;
+    @Column(name = "NumDictamen")
+    private Integer numDictamen;
 
     public Relsolbco() {
     }
@@ -89,6 +91,14 @@ public class Relsolbco implements Serializable {
         this.fecReg = fecReg;
     }
 
+    public Integer getNumDictamen() {
+        return numDictamen;
+    }
+
+    public void setNumDictamen(Integer numDictamen) {
+        this.numDictamen = numDictamen;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,7 +121,7 @@ public class Relsolbco implements Serializable {
 
     @Override
     public String toString() {
-        return "Relsolbco{" + "idBco=" + idBco + ", idSol=" + idSol + ", status=" + status + ", fecReg=" + fecReg + '}';
-    }    
+        return "gob.sgi.model.Relsolbco[ idBco=" + idBco + " ]";
+    }
     
 }

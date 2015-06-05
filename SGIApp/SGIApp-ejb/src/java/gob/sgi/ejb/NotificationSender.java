@@ -83,7 +83,7 @@ public class NotificationSender {
                                 notificacion.setFechaNotificacion(fechaEnvio.getTime());
                                 notificacion.setIdUsu(Integer.parseInt(idUsuario));
                                 notificacion.setLeido(false);
-                                notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ha sido <b>DICTAMINADO</b>");
+                                notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ha sido <b>DICTAMINADO</b> y ha obtenido el n\u00famero de dictaminaci\u00f3n: <b>"+mail.getNumDictamen()+"</b>");
                                 em.persist(notificacion);
                             }
                             break;

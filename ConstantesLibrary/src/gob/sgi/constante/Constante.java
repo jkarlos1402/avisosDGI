@@ -17,6 +17,7 @@ public class Constante {
     public static final String STR_NOM_UE;
     public static final String STR_DIR_SGI;
     public static final String STR_DIAS_CANCELACION;
+    public static final String STR_NUM_DICTAMEN;
 
     //ruta de la carpeta de recursos
     public static final String FILES_HTML_PATH = "C:/DGI/resources";
@@ -124,6 +125,7 @@ public class Constante {
         STR_NOM_UE = propiedades.getProperty("STR_NOM_UE") != null ? propiedades.getProperty("STR_NOM_UE") : "";
         STR_DIR_SGI = propiedades.getProperty("STR_DIR_SGI") != null ? propiedades.getProperty("STR_DIR_SGI") : "";
         STR_DIAS_CANCELACION = propiedades.getProperty("STR_DIAS_CANCELACION") != null ? propiedades.getProperty("STR_DIAS_CANCELACION") : "";
+        STR_NUM_DICTAMEN = propiedades.getProperty("STR_NUM_DICTAMEN") != null ? propiedades.getProperty("STR_NUM_DICTAMEN") : "";
 
         HEADER_PATH = propiedades.getProperty("HEADER_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("HEADER_PATH") : "";
         SOL_ENV_BODY_PATH = propiedades.getProperty("SOL_ENV_BODY_PATH") != null ? FILES_HTML_PATH + propiedades.getProperty("SOL_ENV_BODY_PATH") : "";

@@ -72,8 +72,9 @@ public class NotificationManagerMessage implements MessageListener {
                                 + "where idUsu in (select idUsu from sgi2015.rususec where IdSec = "
                                 + "(select idSec from rususec where idUsu = ? limit 1)) and idRol = " + Constante.ROL_AREA + " limit 1)");
                         statement.setInt(1, Integer.parseInt(mail.getIdUsuario() != null ? mail.getIdUsuario() : "0"));
-                    } else if (!mail.getIdBco().equals("")) {
-                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in (select idusu from ctrlusuarios.usuarios where idRol = '" + Constante.ROL_BANCO + "')");
+                    } else if (!mail.getIdBco().equals("")) {                        
+                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario join ctrlusuarios.usuarios using (idusu) where IdUSu in (select idusu from sgi2015.rususec where IdSec = (select idSec from sgi2015.rususec where idUsu = ? limit 1)) and idRol = '" + Constante.ROL_BANCO + "'");
+                        statement.setInt(1, Integer.parseInt(mail.getIdUsuario() != null ? mail.getIdUsuario() : "0"));
                     }
                     if (statement != null) {
                         rs = statement.executeQuery();

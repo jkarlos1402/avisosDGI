@@ -8,3 +8,4 @@ palabras reservadas:
 - $nombreUE
 - $direccionSGI
 - $diasCancelacion
+- $numDictamen
