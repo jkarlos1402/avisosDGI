@@ -103,7 +103,7 @@ public class NotificationManagerMessage implements MessageListener {
                     rs = statement.executeQuery();
                     while (rs.next()) {
                         recipients.add(rs.getString("emailUsu") != null ? rs.getString("emailUsu") : "");
-                        userRecipients.add(rs.getInt("idusu"));
+                        userRecipients.add(rs.getInt("idusu")+"");
                     }
                     //se manda a persistir a base de datos
                     notificationSender.sendNotification(mail, userRecipients);

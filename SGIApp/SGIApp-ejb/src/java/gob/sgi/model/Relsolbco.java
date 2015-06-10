@@ -44,6 +44,9 @@ public class Relsolbco implements Serializable {
     @Column(name = "FecReg")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecReg;
+    @Column(name = "FecIng")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecIng;
     @Column(name = "NumDictamen")
     private Integer numDictamen;
 
@@ -89,6 +92,14 @@ public class Relsolbco implements Serializable {
 
     public void setFecReg(Date fecReg) {
         this.fecReg = fecReg;
+    }
+
+    public Date getFecIng() {
+        return fecIng;
+    }
+
+    public void setFecIng(Date fecIng) {
+        this.fecIng = fecIng;
     }
 
     public Integer getNumDictamen() {

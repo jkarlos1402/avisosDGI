@@ -58,7 +58,7 @@ public class TimerNotificationBean {
     @PostConstruct
     private void init() {
         Properties propiedades = new Properties();
-        InputStream stream = null;        
+        InputStream stream = null;
         try {
             stream = new FileInputStream(Constante.FILE_CONF_PATH + "/constantes.properties");
             propiedades.load(stream);
@@ -98,9 +98,15 @@ public class TimerNotificationBean {
         Query queryRevisionTemporal = null;
         Mail mail = null;
         Revisiontemporal revisionTemporal = null;
-        queryRevisionTemporal = em.createQuery("SELECT r FROM Revisiontemporal r WHERE r.fechaRevision = :fechaGenerada AND r.tipoRevision = 'solicitud'");
-        queryRevisionTemporal.setParameter("fechaGenerada", Calendar.getInstance().getTime(), TemporalType.DATE);
+        queryRevisionTemporal = em.createQuery("SELECT r FROM Revisiontemporal r");
+        //queryRevisionTemporal.setParameter("fechaGenerada", Calendar.getInstance().getTime(), TemporalType.TIMESTAMP);
         revisiones = queryRevisionTemporal.getResultList();
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        for (Revisiontemporal revision : revisiones) {
+            if (!formatDate.format(revision.getFechaRevision()).equals(formatDate.format(Calendar.getInstance().getTime()))) {
+                revisiones.remove(revision);
+            }
+        }
         if (revisiones.isEmpty()) {
             String[] diasVerificar = Constante.DIAS_TO_SEND_NOTIFICACION_SOL.split(",");
             for (int i = 0; i < diasVerificar.length; i++) {
@@ -253,7 +259,7 @@ public class TimerNotificationBean {
             diasVerificar = Constante.DIAS_TO_SEND_NOTIFICACION_DICT_ES.split(",");
             for (int i = 0; i < diasVerificar.length; i++) {
 //            System.out.println("dias para verificar dictaminacion de es: " + diasVerificar[i]);
-                queryStudies = em.createQuery("SELECT e FROM Relsolbco e WHERE e.status = " + Constante.ESTATUS_ES_INGRESADO);
+                queryStudies = em.createQuery("SELECT e FROM Relsolbco e WHERE e.status = " + Constante.ESTATUS_ES_INGRESADO +" OR e.status = "+Constante.ESTATUS_ES_REVISADO);
                 studies = queryStudies.getResultList();
                 for (Relsolbco study : studies) {
                     movStudies = null;
@@ -325,6 +331,9 @@ public class TimerNotificationBean {
             revisionTemporal.setRevisado(Boolean.TRUE);
             revisionTemporal.setTipoRevision("solicitud");
             em.persist(revisionTemporal);
+            System.out.println("Se realizo revision: " + Calendar.getInstance().getTime());
+        } else {
+            System.out.println("No se realizo revision: " + Calendar.getInstance().getTime());
         }
     }
 

@@ -36,7 +36,7 @@ public class Revisiontemporal implements Serializable {
     @Column(name = "idRevision")
     private Integer idRevision;
     @Column(name = "fechaRevision")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRevision;
     @Column(name = "revisado")
     private Boolean revisado;
@@ -105,7 +105,7 @@ public class Revisiontemporal implements Serializable {
 
     @Override
     public String toString() {
-        return "Revisiontemporal{" + "idRevision=" + idRevision + ", fechaRevision=" + fechaRevision + ", revisado=" + revisado + ", tipoRevision=" + tipoRevision + '}';
-    }    
+        return "gob.sgi.model.Revisiontemporal[ idRevision=" + idRevision + " ]";
+    }
     
 }
