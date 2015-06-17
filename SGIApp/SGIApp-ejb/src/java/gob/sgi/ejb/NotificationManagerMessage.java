@@ -38,7 +38,7 @@ public class NotificationManagerMessage implements MessageListener {
     @EJB
     private EMailSender eMailSender;
 
-    @Resource(lookup = "SGIDB")
+    @Resource(lookup = "SGIDBJDBC")
     DataSource dsSGIDB;
 
     @EJB
