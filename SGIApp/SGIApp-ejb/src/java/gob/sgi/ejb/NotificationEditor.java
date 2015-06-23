@@ -1,22 +1,31 @@
 package gob.sgi.ejb;
 
-import gob.sgi.model.Notificacion;
+import gob.sgi.model.ConnectionManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Stateless
 @LocalBean
 public class NotificationEditor {
 
-    @PersistenceContext
-    private EntityManager em;
-
     public void setNotificacion(String idNotificacion, String estatus) {
-        Notificacion notificacion;
-        notificacion = em.find(Notificacion.class, Integer.parseInt(idNotificacion));                
-        notificacion.setLeido(new Boolean(estatus));        
-        em.merge(notificacion);
+        ConnectionManager cm = new ConnectionManager();
+        Connection connection = cm.conectar();
+        PreparedStatement statement = null;
+        int rs = 0;
+        try {
+            statement = connection.prepareStatement("UPDATE notificacion SET leido = ? WHERE idnotificacion = ?");
+            statement.setBoolean(1, new Boolean(estatus != null && estatus != "" ? estatus : "false" ));
+            statement.setInt(2, new Integer(idNotificacion != null && idNotificacion != "" ? idNotificacion : "0"));            
+            rs = statement.executeUpdate();                        
+            cm.desconectar(connection);
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());            
+        }finally{
+            cm.desconectar(connection);
+        }        
     }
 }

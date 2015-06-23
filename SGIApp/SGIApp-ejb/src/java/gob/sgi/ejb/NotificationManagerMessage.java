@@ -7,6 +7,7 @@ package gob.sgi.ejb;
 
 import gob.sgi.constante.Constante;
 import gob.sgi.dto.Mail;
+import gob.sgi.model.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,9 +39,8 @@ public class NotificationManagerMessage implements MessageListener {
     @EJB
     private EMailSender eMailSender;
 
-    @Resource(lookup = "SGIDBJDBC")
-    DataSource dsSGIDB;
-
+//    @Resource(lookup = "SGIDBJDBC")
+//    DataSource dsSGIDB;
     @EJB
     private NotificationSender notificationSender;
 
@@ -51,14 +51,15 @@ public class NotificationManagerMessage implements MessageListener {
         Connection conSGI = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
+        ConnectionManager cm = new ConnectionManager();
         if (message instanceof ObjectMessage) {
             objectMessage = (ObjectMessage) message;
         }
         try {
             mail = (Mail) objectMessage.getObject();
             System.out.println(mail.toString());
-            //Se recuperan los destinatarios del correo dependiendo del rol del usuario que realizo la peticion
-            conSGI = dsSGIDB.getConnection();
+            //Se recuperan los destinatarios del correo dependiendo del rol del usuario que realizo la peticion            
+            conSGI = cm.conectar();
 //            conUsu = dsUsuariosDB.getConnection();
             List recipients = new ArrayList<>();
             List userRecipients = new ArrayList<>();
@@ -72,7 +73,7 @@ public class NotificationManagerMessage implements MessageListener {
                                 + "where idUsu in (select idUsu from sgi2015.rususec where IdSec = "
                                 + "(select idSec from rususec where idUsu = ? limit 1)) and idRol = " + Constante.ROL_AREA + " limit 1)");
                         statement.setInt(1, Integer.parseInt(mail.getIdUsuario() != null ? mail.getIdUsuario() : "0"));
-                    } else if (!mail.getIdBco().equals("")) {                        
+                    } else if (!mail.getIdBco().equals("")) {
                         statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario join ctrlusuarios.usuarios using (idusu) where IdUSu in (select idusu from sgi2015.rususec where IdSec = (select idSec from sgi2015.rususec where idUsu = ? limit 1)) and idRol = '" + Constante.ROL_BANCO + "'");
                         statement.setInt(1, Integer.parseInt(mail.getIdUsuario() != null ? mail.getIdUsuario() : "0"));
                     }
@@ -103,7 +104,7 @@ public class NotificationManagerMessage implements MessageListener {
                     rs = statement.executeQuery();
                     while (rs.next()) {
                         recipients.add(rs.getString("emailUsu") != null ? rs.getString("emailUsu") : "");
-                        userRecipients.add(rs.getInt("idusu")+"");
+                        userRecipients.add(rs.getInt("idusu") + "");
                     }
                     //se manda a persistir a base de datos
                     notificationSender.sendNotification(mail, userRecipients);
@@ -174,7 +175,7 @@ public class NotificationManagerMessage implements MessageListener {
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
         } finally {
-            if(rs != null){
+            if (rs != null) {
                 try {
                     rs.close();
                 } catch (SQLException ex) {
@@ -187,13 +188,9 @@ public class NotificationManagerMessage implements MessageListener {
                 } catch (SQLException ex) {
                     System.out.println("SQLException al cerrar statement: " + ex.getMessage());
                 }
-            }  
-            if(conSGI != null){
-                try {
-                    conSGI.close();                    
-                } catch (SQLException ex) {
-                    System.out.println("SQLException al cerrar conSGI: " + ex.getMessage());
-                }
+            }
+            if (conSGI != null) {
+                cm.desconectar(conSGI);
             }
         }
     }
