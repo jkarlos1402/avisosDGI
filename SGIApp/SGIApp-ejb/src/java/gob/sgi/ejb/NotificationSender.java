@@ -6,24 +6,17 @@ import gob.sgi.model.ConnectionManager;
 import gob.sgi.model.Notificacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Stateless
 @LocalBean
 public class NotificationSender {
 
-//    @PersistenceContext
-//    private EntityManager em;
     public Boolean sendNotification(Mail mail, List<String> idUsuarioDestino) {
         ConnectionManager cm = new ConnectionManager();
         Connection connection = cm.conectar();
@@ -201,14 +194,14 @@ public class NotificationSender {
                             notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b>, a\u00fan <b>NO</b> se ha <b>DICTAMINADO</b>, cuenta con <b>" + mail.getDiasParaNoticifacion() + "</b> d\u00edas para revisarlo.");
                             notificaciones.add(notificacion);
                         }
-                    } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco().equals(Constante.ESTATUS_ES_VENCIDO) && mail.getIdUsuario() == null) {
+                    } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco().equals(Constante.ESTATUS_ES_VENCIDO)) {
                         for (String idUsuario : idUsuarioDestino) {
                             Calendar fechaEnvio = Calendar.getInstance();
                             notificacion = new Notificacion();
                             notificacion.setFechaNotificacion(fechaEnvio.getTime());
                             notificacion.setIdUsu(Integer.parseInt(idUsuario));
                             notificacion.setLeido(false);
-                            notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b>, se ha <b>VENCIDO</b> favor de revisarlo <b>URGENTEMENTE</b>");
+                            notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b>, se ha <b>CANCELADO</b> ya que no se ha dictaminado o regresado con observaciones");
                             notificaciones.add(notificacion);
                         }
                     }

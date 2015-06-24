@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="SGIApp-ejbPU" transaction-type="JTA">
-    <jta-data-source>SGIDB</jta-data-source>
-    <class>gob.sgi.model.Notificacion</class>
-    <class>gob.sgi.model.Psolicitud</class>
-    <class>gob.sgi.model.Relsolbco</class>
-    <class>gob.sgi.model.Movbco</class>
+  <persistence-unit name="notificacionPU" transaction-type="JTA">
+    <jta-data-source>NotificacionDB</jta-data-source>
     <class>gob.sgi.model.Revisiontemporal</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>

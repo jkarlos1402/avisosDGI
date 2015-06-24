@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gob.sgi.ejb;
 
 import gob.sgi.constante.Constante;
@@ -14,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
@@ -22,7 +16,6 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-import javax.sql.DataSource;
 
 /**
  * MessageDrivenBean encargado de llamar al ejb que enviará el correo cuando
@@ -39,8 +32,6 @@ public class NotificationManagerMessage implements MessageListener {
     @EJB
     private EMailSender eMailSender;
 
-//    @Resource(lookup = "SGIDBJDBC")
-//    DataSource dsSGIDB;
     @EJB
     private NotificationSender notificationSender;
 
@@ -60,7 +51,6 @@ public class NotificationManagerMessage implements MessageListener {
             System.out.println(mail.toString());
             //Se recuperan los destinatarios del correo dependiendo del rol del usuario que realizo la peticion            
             conSGI = cm.conectar();
-//            conUsu = dsUsuariosDB.getConnection();
             List recipients = new ArrayList<>();
             List userRecipients = new ArrayList<>();
             String unidadEjecutora = "";
@@ -149,6 +139,20 @@ public class NotificationManagerMessage implements MessageListener {
                 case Constante.ROL_SISTEMA:
                     if (mail.getIdBco() != null && mail.getIdUsuario() == null) {
                         statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in (select idusu from ctrlusuarios.usuarios where idRol = " + Constante.ROL_BANCO + ")");
+                        rs = statement.executeQuery();
+                        while (rs.next()) {
+                            recipients.add(rs.getString("emailUsu") != null ? rs.getString("emailUsu") : "");
+                            userRecipients.add(rs.getInt("idusu") + "");
+                        }
+                    } else if (mail.getIdBco() != null && mail.getEstatusBco().equals(Constante.ESTATUS_ES_VENCIDO)) {
+                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in (select idusu from ctrlusuarios.usuarios where idRol = " + Constante.ROL_BANCO + ")");
+                        rs = statement.executeQuery();
+                        while (rs.next()) {
+                            recipients.add(rs.getString("emailUsu") != null ? rs.getString("emailUsu") : "");
+                            userRecipients.add(rs.getInt("idusu") + "");
+                        }
+                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu = ?");
+                        statement.setInt(1, Integer.parseInt(mail.getIdUsuario() != null ? mail.getIdUsuario() : "0"));
                         rs = statement.executeQuery();
                         while (rs.next()) {
                             recipients.add(rs.getString("emailUsu") != null ? rs.getString("emailUsu") : "");

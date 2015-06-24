@@ -81,21 +81,30 @@ public class Constante {
     public static final String DIAS_TO_SEND_NOTIFICACION_SOL;
 
     // periodo de fechas para los estudios
-    public static final Integer VIGENCIA_ES_OBS;
-    public static final String DIAS_TO_SEND_NOTIFICACION_ES;
-    public static final Integer VIGENCIA_ES_DICTAMINACION;
-    public static final String DIAS_TO_SEND_NOTIFICACION_DICT_ES;
+    public static final Integer VIGENCIA_ES_OBS_1;
+    public static final String DIAS_TO_SEND_NOTIFICACION_ES_1;
+    public static final Integer VIGENCIA_ES_OBS_2;
+    public static final String DIAS_TO_SEND_NOTIFICACION_ES_2;
+    public static final Integer VIGENCIA_ES_OBS_3;
+    public static final String DIAS_TO_SEND_NOTIFICACION_ES_3;
+    
+    public static final Integer VIGENCIA_ES_DICTAMINACION_1;
+    public static final String DIAS_TO_SEND_NOTIFICACION_DICT_ES_1;
+    public static final Integer VIGENCIA_ES_DICTAMINACION_2;
+    public static final String DIAS_TO_SEND_NOTIFICACION_DICT_ES_2;
+    public static final Integer VIGENCIA_ES_DICTAMINACION_3;
+    public static final String DIAS_TO_SEND_NOTIFICACION_DICT_ES_3;
 
     //vigencia de las notificaciones
     public static final Integer VIGENCIA_NOTIFICACIONES;
 
-    //horario para verificar solicitudes, estudios y notificaciones
+    //horario para eliminar chequeo
     public static final String ANHO = "*";
     public static final String MES_DEL_ANHO = "*";
     public static final String DIAS_DEL_MES = "*";
     public static final String DIA_DE_LA_SEMANA = "*";
-    public static final String HORAS_DEL_DIA = "0";
-    public static final String MINUTOS_DE_LA_HORA = "1";
+    public static final String HORAS_DEL_DIA = "*";
+    public static final String MINUTOS_DE_LA_HORA = "2,12,22,32,42,52";
 
     static {
         Properties propiedades = new Properties();
@@ -155,11 +164,19 @@ public class Constante {
         VIGENCIA_SOL_OBS = propiedades.getProperty("VIGENCIA_SOL_OBS") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_SOL_OBS")) : 0;
         DIAS_TO_SEND_NOTIFICACION_SOL = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_SOL") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_SOL") : "0";
 
-        VIGENCIA_ES_OBS = propiedades.getProperty("VIGENCIA_ES_OBS") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_OBS")) : 0;
-        DIAS_TO_SEND_NOTIFICACION_ES = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES") : "0";
+        VIGENCIA_ES_OBS_1 = propiedades.getProperty("VIGENCIA_ES_OBS_1") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_OBS_1")) : 0;
+        DIAS_TO_SEND_NOTIFICACION_ES_1 = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES_1") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES_1") : "0";
+        VIGENCIA_ES_OBS_2 = propiedades.getProperty("VIGENCIA_ES_OBS_2") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_OBS_2")) : 0;
+        DIAS_TO_SEND_NOTIFICACION_ES_2 = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES_2") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES_2") : "0";
+        VIGENCIA_ES_OBS_3 = propiedades.getProperty("VIGENCIA_ES_OBS_3") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_OBS_3")) : 0;
+        DIAS_TO_SEND_NOTIFICACION_ES_3 = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES_3") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_ES_3") : "0";
 
-        VIGENCIA_ES_DICTAMINACION = propiedades.getProperty("VIGENCIA_ES_DICTAMINACION") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_DICTAMINACION")) : 0;
-        DIAS_TO_SEND_NOTIFICACION_DICT_ES = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES") : "0";
+        VIGENCIA_ES_DICTAMINACION_1 = propiedades.getProperty("VIGENCIA_ES_DICTAMINACION_1") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_DICTAMINACION_1")) : 0;
+        DIAS_TO_SEND_NOTIFICACION_DICT_ES_1 = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES_1") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES_1") : "0";
+        VIGENCIA_ES_DICTAMINACION_2 = propiedades.getProperty("VIGENCIA_ES_DICTAMINACION_2") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_DICTAMINACION_2")) : 0;
+        DIAS_TO_SEND_NOTIFICACION_DICT_ES_2 = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES_2") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES_2") : "0";
+        VIGENCIA_ES_DICTAMINACION_3 = propiedades.getProperty("VIGENCIA_ES_DICTAMINACION_3") != null ? Integer.parseInt(propiedades.getProperty("VIGENCIA_ES_DICTAMINACION_3")) : 0;
+        DIAS_TO_SEND_NOTIFICACION_DICT_ES_3 = propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES_3") != null ? propiedades.getProperty("DIAS_TO_SEND_NOTIFICACION_DICT_ES_3") : "0";
 
         ESTATUS_ES_BLOQUEADO = propiedades.getProperty("ESTATUS_ES_BLOQUEADO") != null ? propiedades.getProperty("ESTATUS_ES_BLOQUEADO") : "";
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gob.sgi.ejb;
 
 import gob.sgi.constante.Constante;
@@ -23,10 +18,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-/**
- *
- * @author intel core i 7
- */
 @Stateless
 @LocalBean
 public class EMailSender {
@@ -97,8 +88,8 @@ public class EMailSender {
                     tipoBody = Constante.ES_CANCELADO_BODY_PATH;
                 } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco() == null && mail.getIdUsuario() == null) {
                     tipoBody = Constante.ES_NO_ACTIVIDAD_DICT_BODY_PATH;
-                } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco().equals(Constante.ESTATUS_ES_VENCIDO) && mail.getIdUsuario() == null) {
-                    tipoBody = Constante.ES_VENCIDO_BODY_PATH;
+                } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco().equals(Constante.ESTATUS_ES_VENCIDO)) {
+                    tipoBody = Constante.ES_CANCELADO_BODY_PATH;
                 }
                 break;
         }
