@@ -19,7 +19,7 @@ public class NotificationSender {
 
     public Boolean sendNotification(Mail mail, List<String> idUsuarioDestino) {
         ConnectionManager cm = new ConnectionManager();
-        Connection connection = cm.conectar();
+        Connection connection = null;
         PreparedStatement statement = null;
         int rs;
         List<Notificacion> notificaciones = new ArrayList<>();
@@ -209,6 +209,7 @@ public class NotificationSender {
             }
             for (Notificacion notificacion : notificaciones) {
                 try {
+                    connection = cm.conectar();
                     statement = connection.prepareStatement("INSERT INTO notificacion(fechaNotificacion,mensaje,vigencia,leido,idUsu) values(?,?,?,?,?)");
                     statement.setDate(1, new java.sql.Date(notificacion.getFechaNotificacion().getTime()));
                     statement.setString(2, notificacion.getMensaje());

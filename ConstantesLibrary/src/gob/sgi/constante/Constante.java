@@ -103,8 +103,8 @@ public class Constante {
     public static final String MES_DEL_ANHO = "*";
     public static final String DIAS_DEL_MES = "*";
     public static final String DIA_DE_LA_SEMANA = "*";
-    public static final String HORAS_DEL_DIA = "*";
-    public static final String MINUTOS_DE_LA_HORA = "2,12,22,32,42,52";
+    public static final String HORAS_DEL_DIA = "0";
+    public static final String MINUTOS_DE_LA_HORA = "1";
 
     static {
         Properties propiedades = new Properties();
