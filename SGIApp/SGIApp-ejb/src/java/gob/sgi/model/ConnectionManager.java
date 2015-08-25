@@ -49,7 +49,7 @@ public class ConnectionManager {
         Connection conexion = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String servidor = "jdbc:mysql://"+this.servidor+":"+this.puerto+"/"+this.baseDatos;
+            String servidor = "jdbc:mysql://"+this.servidor+":"+this.puerto+"/"+this.baseDatos;            
             String usuarioDB = this.usuario;
             String passwordDB = this.password;
             conexion = DriverManager.getConnection(servidor, usuarioDB, passwordDB);

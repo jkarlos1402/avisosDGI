@@ -58,10 +58,10 @@ public class NotificationManagerMessage implements MessageListener {
                 case Constante.ROL_DEPENDENCIA: //dependencia es la que genera la notificacion
                     // se procede a buscar el correo del área que le corresponde
                     if (!mail.getIdSolicitud().equals("")) {
-                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu = ("
+                        statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in ("
                                 + "select idusu from ctrlusuarios.usuarios "
                                 + "where idUsu in (select idUsu from sgi2015.rususec where IdSec = "
-                                + "(select idSec from rususec where idUsu = ? limit 1)) and idRol = " + Constante.ROL_AREA + " limit 1)");
+                                + "(select idSec from rususec where idUsu = ? limit 1)) and idRol = " + Constante.ROL_AREA + ")");
                         statement.setInt(1, Integer.parseInt(mail.getIdUsuario() != null ? mail.getIdUsuario() : "0"));
                     } else if (!mail.getIdBco().equals("")) {
                         statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario join ctrlusuarios.usuarios using (idusu) where IdUSu in (select idusu from sgi2015.rususec where IdSec = (select idSec from sgi2015.rususec where idUsu = ? limit 1)) and idRol = '" + Constante.ROL_BANCO + "'");
@@ -144,7 +144,7 @@ public class NotificationManagerMessage implements MessageListener {
                             recipients.add(rs.getString("emailUsu") != null ? rs.getString("emailUsu") : "");
                             userRecipients.add(rs.getInt("idusu") + "");
                         }
-                    } else if (mail.getIdBco() != null && mail.getEstatusBco().equals(Constante.ESTATUS_ES_VENCIDO)) {
+                    } else if (mail.getIdBco() != null && mail.getEstatusBco() != null && mail.getEstatusBco().equals(Constante.ESTATUS_ES_VENCIDO)) {
                         statement = conSGI.prepareStatement("select idusu,emailUsu from ctrlusuarios.infousuario where idusu in (select idusu from ctrlusuarios.usuarios where idRol = " + Constante.ROL_BANCO + ")");
                         rs = statement.executeQuery();
                         while (rs.next()) {

@@ -68,8 +68,7 @@ public class NotificationSender {
                                 notificaciones.add(notificacion);
                             }
                             break;
-                        case Constante.ESTATUS_ES_OBSERVACIONES:
-                            System.out.println(idUsuarioDestino.get(0));
+                        case Constante.ESTATUS_ES_OBSERVACIONES:                            
                             for (String idUsuario : idUsuarioDestino) {
                                 Calendar fechaEnvio = Calendar.getInstance();
                                 notificacion = new Notificacion();

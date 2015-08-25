@@ -16,7 +16,7 @@ public class Plazo {
             diaFinalCalendar.add(Calendar.DAY_OF_YEAR, -1);
             diaFinal = diaFinalCalendar.getTime();
             calendar.setTime(diaFinal);            
-            if (calendar.get(Calendar.DAY_OF_WEEK) != 1 && calendar.get(Calendar.DAY_OF_WEEK) != 7) {
+            if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
                 diasNaturales++;
             }
             aumento++;
