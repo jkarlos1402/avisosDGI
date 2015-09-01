@@ -29,6 +29,15 @@ public class Mail implements Serializable {
     private String estatusBco;
     private String numDictamen;
     private Integer diasParaNoticifacion;
+    private Float montoBco;
+
+    public Float getMontoBco() {
+        return montoBco;
+    }
+
+    public void setMontoBco(Float montoBco) {
+        this.montoBco = montoBco;
+    }
 
     public String getNumDictamen() {
         return numDictamen;
@@ -184,7 +193,7 @@ public class Mail implements Serializable {
 
     @Override
     public String toString() {
-        return "Mail{" + "header=" + header + ", body=" + body + ", footer=" + footer + ", subject=" + subject + ", sender=" + sender + ", recipients=" + recipients + ", cc=" + cc + ", cco=" + cco + ", idSolicitud=" + idSolicitud + ", idUsuario=" + idUsuario + ", idRolUsu=" + idRolUsu + ", tipoSolicitud=" + tipoSolicitud + ", estatusSolicitud=" + estatusSolicitud + ", idObra=" + idObra + ", idBco=" + idBco + ", unidadEjecutora=" + unidadEjecutora + ", estatusBco=" + estatusBco + '}';
-    }
+        return "Mail{" + "header=" + header + ", body=" + body + ", footer=" + footer + ", subject=" + subject + ", sender=" + sender + ", recipients=" + recipients + ", cc=" + cc + ", cco=" + cco + ", idSolicitud=" + idSolicitud + ", idUsuario=" + idUsuario + ", idRolUsu=" + idRolUsu + ", tipoSolicitud=" + tipoSolicitud + ", estatusSolicitud=" + estatusSolicitud + ", idObra=" + idObra + ", idBco=" + idBco + ", unidadEjecutora=" + unidadEjecutora + ", estatusBco=" + estatusBco + ", numDictamen=" + numDictamen + ", diasParaNoticifacion=" + diasParaNoticifacion + ", montoBco=" + montoBco + '}';
+    }    
 
 }

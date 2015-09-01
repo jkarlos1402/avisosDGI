@@ -4,6 +4,7 @@ import gob.sgi.constante.Constante;
 import gob.sgi.dto.Mail;
 import gob.sgi.model.ConnectionManager;
 import gob.sgi.model.Notificacion;
+import gob.sgi.model.Plazo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -33,7 +34,8 @@ public class NotificationSender {
                             notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                             notificacion.setIdUsu(Integer.parseInt(idUsuario));
                             notificacion.setLeido(false);
-                            notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> ha sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora() + "</b>");
+                            notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> ha sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora() + "</b>, cuenta con <b>" + Constante.VIGENCIA_SOL_OBS + " d\u00edas h\u00e1biles</b> para su an\u00e1lisis");
+                            notificacion.setVigencia(Plazo.calculaFuturaFechaPlazo(Constante.VIGENCIA_SOL_OBS));
                             notificaciones.add(notificacion);
                         }
                     } else if (mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_INGRESADA)) {
@@ -42,7 +44,8 @@ public class NotificationSender {
                             notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                             notificacion.setIdUsu(Integer.parseInt(idUsuario));
                             notificacion.setLeido(false);
-                            notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> presentaba observaciones menores y ha sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora() + "</b>");
+                            notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> presentaba observaciones menores y ha sido <b>ENVIADA</b> para su revisi\u00f3n; procedencia: <b>" + mail.getUnidadEjecutora() + "</b>, cuenta con <b>" + Constante.VIGENCIA_SOL_OBS + " d\u00edas h\u00e1biles</b> para su an\u00e1lisis");
+                            notificacion.setVigencia(Plazo.calculaFuturaFechaPlazo(Constante.VIGENCIA_SOL_OBS));
                             notificaciones.add(notificacion);
                         }
                     } else if (mail.getEstatusBco().equals(Constante.ESTATUS_ES_ENVIADO)) {
@@ -64,20 +67,35 @@ public class NotificationSender {
                                 notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                                 notificacion.setIdUsu(Integer.parseInt(idUsuario));
                                 notificacion.setLeido(false);
-                                notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ha sido <b>INGRESADO</b> f\u00edsicamente a la DGI para su <b>DICTAMINACI\u00d3N</b>");
+                                if (mail.getMontoBco() < 50000000.00f) {
+                                    notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ha sido <b>INGRESADO</b> f\u00edsicamente a la DGI para su <b>DICTAMINACI\u00d3N</b>, se cuenta con <b>" + Constante.VIGENCIA_ES_OBS_1 + " d\u00edas h\u00e1biles</b> para su an\u00e1lisis");
+                                    notificacion.setVigencia(Plazo.calculaFuturaFechaPlazo(Constante.VIGENCIA_ES_OBS_1));
+                                } else if (mail.getMontoBco() >= 50000000.00f && mail.getMontoBco() <= 500000000.00f) {
+                                    notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ha sido <b>INGRESADO</b> f\u00edsicamente a la DGI para su <b>DICTAMINACI\u00d3N</b>, se cuenta con <b>" + Constante.VIGENCIA_ES_OBS_2 + " d\u00edas h\u00e1biles</b> para su an\u00e1lisis");
+                                    notificacion.setVigencia(Plazo.calculaFuturaFechaPlazo(Constante.VIGENCIA_ES_OBS_2));
+                                } else if (mail.getMontoBco() > 500000000.00f) {
+                                    notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ha sido <b>INGRESADO</b> f\u00edsicamente a la DGI para su <b>DICTAMINACI\u00d3N</b>, se cuenta con <b>" + Constante.VIGENCIA_ES_OBS_3 + " d\u00edas h\u00e1biles</b> para su an\u00e1lisis");
+                                    notificacion.setVigencia(Plazo.calculaFuturaFechaPlazo(Constante.VIGENCIA_ES_OBS_3));
+                                }
                                 notificaciones.add(notificacion);
                             }
                             break;
-                        case Constante.ESTATUS_ES_OBSERVACIONES:                            
+                        case Constante.ESTATUS_ES_OBSERVACIONES:
                             for (String idUsuario : idUsuarioDestino) {
-                                Calendar fechaEnvio = Calendar.getInstance();
                                 notificacion = new Notificacion();
-                                notificacion.setFechaNotificacion(fechaEnvio.getTime());
+                                notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                                 notificacion.setIdUsu(Integer.parseInt(idUsuario));
                                 notificacion.setLeido(false);
-                                notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ha sido regresado con <b>OBSERVACIONES</b>, favor de corregirlas y env\u00edar nuevamente el estudio");
-                                fechaEnvio.add(Calendar.DAY_OF_YEAR, 180);// cambiar 180 por una constante (regla de negocio)
-                                notificacion.setVigencia(fechaEnvio.getTime());
+                                if (mail.getMontoBco() < 50000000.00f) {
+                                    notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ha sido regresado con <b>OBSERVACIONES</b>, tiene <b>" + Constante.VIGENCIA_ES_OBS_1 + " d\u00edas h\u00e1biles</b> para corregirlas y env\u00edar nuevamente el estudio");
+                                    notificacion.setVigencia(Plazo.calculaFuturaFechaPlazo(Constante.VIGENCIA_ES_OBS_1));
+                                } else if (mail.getMontoBco() >= 50000000.00f && mail.getMontoBco() <= 500000000.00f) {
+                                    notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ha sido regresado con <b>OBSERVACIONES</b>, tiene <b>" + Constante.VIGENCIA_ES_OBS_2 + " d\u00edas h\u00e1biles</b> para corregirlas y env\u00edar nuevamente el estudio");
+                                    notificacion.setVigencia(Plazo.calculaFuturaFechaPlazo(Constante.VIGENCIA_ES_OBS_2));
+                                } else if (mail.getMontoBco() > 500000000.00f) {
+                                    notificacion.setMensaje("El estudio socioecon\u00f3mico con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdBco() + "</b> ha sido regresado con <b>OBSERVACIONES</b>, tiene <b>" + Constante.VIGENCIA_ES_OBS_3 + " d\u00edas h\u00e1biles</b> para corregirlas y env\u00edar nuevamente el estudio");
+                                    notificacion.setVigencia(Plazo.calculaFuturaFechaPlazo(Constante.VIGENCIA_ES_OBS_3));
+                                }
                                 notificaciones.add(notificacion);
                             }
                             break;
@@ -97,14 +115,12 @@ public class NotificationSender {
                 case Constante.ROL_AREA:// el area es la que genera la notificacion
                     if (mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_REVISADA)) {
                         for (String idUsuario : idUsuarioDestino) {
-                            Calendar fechaEnvio = Calendar.getInstance();
                             notificacion = new Notificacion();
-                            notificacion.setFechaNotificacion(fechaEnvio.getTime());
+                            notificacion.setFechaNotificacion(Calendar.getInstance().getTime());
                             notificacion.setIdUsu(Integer.parseInt(idUsuario));
                             notificacion.setLeido(false);
-                            notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> ha sido regresada con <b>OBSERVACIONES</b>, favor de corregirlas y env\u00edar nuevamente la solicitud");
-                            fechaEnvio.add(Calendar.DAY_OF_YEAR, 180);// cambiar 180 por una constante (regla de negocio)
-                            notificacion.setVigencia(fechaEnvio.getTime());
+                            notificacion.setMensaje("La solicitud con n\u00famero de identificaci\u00f3n: <b>" + mail.getIdSolicitud() + "</b> ha sido regresada con <b>OBSERVACIONES</b>, cuenta con <b>" + Constante.VIGENCIA_SOL_OBS + " d\u00edas h\u00e1biles</b> para corregirlas y env\u00edar nuevamente la solicitud");
+                            notificacion.setVigencia(Plazo.calculaFuturaFechaPlazo(Constante.VIGENCIA_SOL_OBS));
                             notificaciones.add(notificacion);
                         }
                     } else if (mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_ACEPTADA)) {
@@ -218,7 +234,7 @@ public class NotificationSender {
                     rs = statement.executeUpdate();
                 } catch (SQLException ex) {
                     System.out.println("SQLException notificationSender.java: " + ex.getMessage());
-                } finally {                    
+                } finally {
                     if (statement != null) {
                         try {
                             statement.close();

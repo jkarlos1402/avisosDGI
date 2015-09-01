@@ -42,7 +42,7 @@ public class MailWS {
     public Response placeMailToQueue(@FormParam("idSol") final String idSol, @FormParam("idUsu") final String idUsu,
             @FormParam("estatusSol") final String estatusSol, @FormParam("idObr") final String idObr,
             @FormParam("idRolUsu") final String idRolUsu, @FormParam("idBco") final String idBco, @FormParam("estatusBco") final String estatusBco,
-            @FormParam("numDictamen") final String numDictamen) {
+            @FormParam("numDictamen") final String numDictamen, @FormParam("montoBco") final String montoBco) {
         String[] solicitudes;
         solicitudes = idSol.split(",");
         for (int i = 0; i < solicitudes.length; i++) {            
@@ -63,6 +63,7 @@ public class MailWS {
                     mail.setIdBco(idBco != null ? idBco : "");
                     mail.setSubject("Aviso de la DGI");
                     mail.setNumDictamen(numDictamen != null ? numDictamen : "");
+                    mail.setMontoBco(montoBco != null ? new Float(montoBco) : new Float("0.00"));
                     //se crea el mensaje
                     ObjectMessage message = queueSession.createObjectMessage(mail);
                     //se envia el mensaje

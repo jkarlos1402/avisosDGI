@@ -40,8 +40,6 @@ import javax.jms.QueueConnectionFactory;
 import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.Session;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 @Singleton
@@ -68,6 +66,7 @@ public class TimerNotificationBean {
 
             TimerConfig timerConfig = new TimerConfig();
             timerConfig.setInfo("CalendarProgTimerDemo_Info");
+            timerConfig.setPersistent(false);
             ScheduleExpression schedule = new ScheduleExpression();
             System.out.println("Horario de revision de solicitudes: year " + propiedades.getProperty("YEAR_REVISION") + " - month " + propiedades.getProperty("MONTH_REVISION") + " - dayofmonth " + propiedades.getProperty("DAY_OF_MONTH_REVISION") + " - DAY_OF_WEEK_REVISION " + propiedades.getProperty("DAY_OF_WEEK_REVISION") + " - HOUR_REVISION " + propiedades.getProperty("HOUR_REVISION") + " - MINUTE_REVISION " + propiedades.getProperty("MINUTE_REVISION") + " - SECOND_REVISION " + propiedades.getProperty("SECOND_REVISION"));
             schedule.year(propiedades.getProperty("YEAR_REVISION")).month(propiedades.getProperty("MONTH_REVISION")).dayOfMonth(propiedades.getProperty("DAY_OF_MONTH_REVISION")).dayOfWeek(propiedades.getProperty("DAY_OF_WEEK_REVISION")).hour(propiedades.getProperty("HOUR_REVISION")).minute(propiedades.getProperty("MINUTE_REVISION")).second(propiedades.getProperty("SECOND_REVISION"));
@@ -1554,7 +1553,7 @@ public class TimerNotificationBean {
         }
     }
 
-    @Schedule(dayOfWeek = Constante.DIA_DE_LA_SEMANA, month = Constante.MES_DEL_ANHO, hour = "*", dayOfMonth = Constante.DIAS_DEL_MES, year = Constante.ANHO, minute = "30", second = "0")
+    @Schedule(dayOfWeek = Constante.DIA_DE_LA_SEMANA, month = Constante.MES_DEL_ANHO, hour = "*", dayOfMonth = Constante.DIAS_DEL_MES, year = Constante.ANHO, minute = "30", second = "0",persistent=false)
     public void checkNotifications() {
         Calendar fechaActual = Calendar.getInstance();
         fechaActual.add(Calendar.DAY_OF_YEAR, (Constante.VIGENCIA_NOTIFICACIONES * -1));
@@ -1585,7 +1584,7 @@ public class TimerNotificationBean {
         System.out.println("Se eliminaron " + res + " notificaciones.");
     }
 
-    @Schedule(dayOfWeek = Constante.DIA_DE_LA_SEMANA, month = Constante.MES_DEL_ANHO, hour = Constante.HORAS_DEL_DIA, dayOfMonth = Constante.DIAS_DEL_MES, year = Constante.ANHO, minute = Constante.MINUTOS_DE_LA_HORA, second = "0")
+    @Schedule(dayOfWeek = Constante.DIA_DE_LA_SEMANA, month = Constante.MES_DEL_ANHO, hour = Constante.HORAS_DEL_DIA, dayOfMonth = Constante.DIAS_DEL_MES, year = Constante.ANHO, minute = Constante.MINUTOS_DE_LA_HORA, second = "0",persistent=false)
     public void deleteCheck() {
         ConnectionManager cm = new ConnectionManager();
         Connection cn;
