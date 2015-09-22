@@ -54,7 +54,7 @@ public class TimerNotificationBean {
     private QueueConnectionFactory connectionFactory;
 
     @Resource(mappedName = "QueueMail")
-    private Queue mailQueue;    
+    private Queue mailQueue;
 
     @PostConstruct
     private void init() {
@@ -219,7 +219,7 @@ public class TimerNotificationBean {
                 cn = cm.conectar();
                 petitions = new ArrayList<>();
                 try {
-                    statement = cn.prepareStatement("SELECT IdSol,IdUsu FROM psolicitud WHERE IdEdoSol = ? AND IdSolPre IS NOT NULL AND FecEval = ?");
+                    statement = cn.prepareStatement("SELECT IdSol,IdUsu,IdSolPre FROM psolicitud WHERE IdEdoSol = ? AND IdSolPre IS NOT NULL AND FecEval = ?");
                     statement.setInt(1, Integer.parseInt(Constante.ESTATUS_SOL_REVISADA));
                     statement.setDate(2, new java.sql.Date(fechaAComparar.getTime()));
                     rs = statement.executeQuery();
@@ -227,6 +227,7 @@ public class TimerNotificationBean {
                         psolicitud = new Psolicitud();
                         psolicitud.setIdSol(rs.getInt("IdSol"));
                         psolicitud.setIdUsu(rs.getShort("IdUsu"));
+                        psolicitud.setIdSolPre(rs.getShort("IdSolPre"));
                         petitions.add(psolicitud);
                     }
                 } catch (SQLException ex) {
@@ -268,6 +269,20 @@ public class TimerNotificationBean {
                             statement.setInt(1, Integer.parseInt(Constante.ESTATUS_SOL_CANCELADA));
                             statement.setInt(2, petition.getIdSol());
                             res = statement.executeUpdate();
+                            if (petition.getIdSolPre().equals(new Short(Constante.SOL_ASIGNACION)) || petition.getIdSolPre().equals(new Short(Constante.SOL_ASIGNACION_ADICIONAL)) || petition.getIdSolPre().equals(new Short(Constante.SOL_ASIGNACION_AMPLIACION)) || petition.getIdSolPre().equals(new Short(Constante.SOL_ASIGNACION_AUTORIZACION)) || petition.getIdSolPre().equals(new Short(Constante.SOL_ASIGNACION_AUTORIZACION_ADICIONAL)) || petition.getIdSolPre().equals(new Short(Constante.SOL_ASIGNACION_AUTORIZACION_AMPLIACION))) {
+                                statement = cn.prepareStatement("SELECT IdRelFonObr,IdDetFon,montoFte FROM relfonobr WHERE IdSol = ? AND regValido = 1 limit 1");
+                                statement.setInt(1, petition.getIdSol());
+                                ResultSet fm = statement.executeQuery();
+                                while (fm.next()) {
+                                    statement = cn.prepareStatement("UPDATE detfonmet SET disponiblePry = disponiblePry+(?) WHERE IdDetFon = ?");
+                                    statement.setFloat(1, fm.getFloat("montoFte"));
+                                    statement.setInt(2, fm.getInt("IdDetFon"));
+                                    res = statement.executeUpdate();
+                                    statement = cn.prepareStatement("UPDATE relfonobr SET regValido = 0 WHERE IdRelFonObr = ?");
+                                    statement.setInt(1, fm.getInt("IdRelFonObr"));
+                                    res = statement.executeUpdate();
+                                }
+                            }
                         } catch (SQLException ex) {
                             System.out.println("SQLException checkPetitionsAndStudies: " + ex.getMessage());
                         } finally {
@@ -486,6 +501,19 @@ public class TimerNotificationBean {
                                     statement.setString(4, "Cancelado autom\u00e1ticamente por inactividad");
                                     statement.setString(5, Constante.ESTATUS_ES_BLOQUEADO);
                                     res = statement.executeUpdate();
+
+                                    statement = cn.prepareStatement("SELECT IdRelFonObr,IdDetFon,montoFte FROM relfonobr WHERE IdSol = ? AND regValido = 1 limit 1");
+                                    statement.setInt(1, study.getIdSol());
+                                    ResultSet fm = statement.executeQuery();
+                                    while (fm.next()) {
+                                        statement = cn.prepareStatement("UPDATE detfonmet SET disponiblePry = disponiblePry+(?) WHERE IdDetFon = ?");
+                                        statement.setFloat(1, fm.getFloat("montoFte"));
+                                        statement.setInt(2, fm.getInt("IdDetFon"));
+                                        res = statement.executeUpdate();
+                                        statement = cn.prepareStatement("UPDATE relfonobr SET regValido = 0 WHERE IdRelFonObr = ?");
+                                        statement.setInt(1, fm.getInt("IdRelFonObr"));
+                                        res = statement.executeUpdate();
+                                    }
                                 } catch (SQLException ex) {
                                     System.out.println("SQLException checkPetitionsAndStudies: " + ex.getMessage());
                                 } finally {
@@ -1524,7 +1552,7 @@ public class TimerNotificationBean {
                         }
                     }
                 }
-            }            
+            }
             cn = cm.conectar();
             int res = 0;
             try {
@@ -1546,14 +1574,14 @@ public class TimerNotificationBean {
                 if (cn != null) {
                     cm.desconectar(cn);
                 }
-            }            
+            }
             System.out.println("Se realizo revision: " + Calendar.getInstance().getTime());
         } else {
             System.out.println("No se realizo revision: " + Calendar.getInstance().getTime());
         }
     }
 
-    @Schedule(dayOfWeek = Constante.DIA_DE_LA_SEMANA, month = Constante.MES_DEL_ANHO, hour = "*", dayOfMonth = Constante.DIAS_DEL_MES, year = Constante.ANHO, minute = "30", second = "0",persistent=false)
+    @Schedule(dayOfWeek = Constante.DIA_DE_LA_SEMANA, month = Constante.MES_DEL_ANHO, hour = "*", dayOfMonth = Constante.DIAS_DEL_MES, year = Constante.ANHO, minute = "30", second = "0", persistent = false)
     public void checkNotifications() {
         Calendar fechaActual = Calendar.getInstance();
         fechaActual.add(Calendar.DAY_OF_YEAR, (Constante.VIGENCIA_NOTIFICACIONES * -1));
@@ -1584,7 +1612,7 @@ public class TimerNotificationBean {
         System.out.println("Se eliminaron " + res + " notificaciones.");
     }
 
-    @Schedule(dayOfWeek = Constante.DIA_DE_LA_SEMANA, month = Constante.MES_DEL_ANHO, hour = Constante.HORAS_DEL_DIA, dayOfMonth = Constante.DIAS_DEL_MES, year = Constante.ANHO, minute = Constante.MINUTOS_DE_LA_HORA, second = "0",persistent=false)
+    @Schedule(dayOfWeek = Constante.DIA_DE_LA_SEMANA, month = Constante.MES_DEL_ANHO, hour = Constante.HORAS_DEL_DIA, dayOfMonth = Constante.DIAS_DEL_MES, year = Constante.ANHO, minute = Constante.MINUTOS_DE_LA_HORA, second = "0", persistent = false)
     public void deleteCheck() {
         ConnectionManager cm = new ConnectionManager();
         Connection cn;
@@ -1592,7 +1620,7 @@ public class TimerNotificationBean {
         cn = cm.conectar();
         int res = 0;
         try {
-            statement = cn.prepareStatement("DELETE FROM revisionTemporal");            
+            statement = cn.prepareStatement("DELETE FROM revisionTemporal");
             res = statement.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("SQLException checkNotifications: " + ex.getMessage());
@@ -1607,7 +1635,7 @@ public class TimerNotificationBean {
             if (cn != null) {
                 cm.desconectar(cn);
             }
-        }        
+        }
         System.out.println("Se eliminaron " + res + " chequeos.");
     }
 }

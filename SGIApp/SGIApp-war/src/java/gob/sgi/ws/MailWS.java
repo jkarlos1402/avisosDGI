@@ -63,7 +63,7 @@ public class MailWS {
                     mail.setIdBco(idBco != null ? idBco : "");
                     mail.setSubject("Aviso de la DGI");
                     mail.setNumDictamen(numDictamen != null ? numDictamen : "");
-                    mail.setMontoBco(montoBco != null ? new Float(montoBco) : new Float("0.00"));
+                    mail.setMontoBco(montoBco != null && !montoBco.equals("") ? new Float(montoBco) : new Float("0.00"));
                     //se crea el mensaje
                     ObjectMessage message = queueSession.createObjectMessage(mail);
                     //se envia el mensaje

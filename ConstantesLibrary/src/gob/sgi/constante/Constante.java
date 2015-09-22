@@ -55,6 +55,21 @@ public class Constante {
     public static final String ROL_AREA = "3";
     public static final String ROL_VENTANILLA = "4";
 
+    //tipos de solicitud
+    public static final String SOL_ASIGNACION = "1";
+    public static final String SOL_AUTORIZACION = "2";
+    public static final String SOL_ASIGNACION_AMPLIACION = "3";
+    public static final String SOL_REDUCCION = "4";
+    public static final String SOL_REFRENDO  = "5";
+    public static final String SOL_TRASPASO  = "6";
+    public static final String SOL_CANCELACION  = "7";
+    public static final String SOL_ACTUALIZACION  = "8";
+    public static final String SOL_ASIGNACION_ADICIONAL  = "9";
+    public static final String SOL_ASIGNACION_AUTORIZACION = "10";
+    public static final String SOL_ASIGNACION_AUTORIZACION_ADICIONAL  = "11";
+    public static final String SOL_AUTORIZACION_AMPLIACION  = "12";
+    public static final String SOL_ASIGNACION_AUTORIZACION_AMPLIACION  = "13";
+    
     //estatus de solicitud    
     public static final String ESTATUS_SOL_ENVIADA = "3";
     public static final String ESTATUS_SOL_INGRESADA = "4";
