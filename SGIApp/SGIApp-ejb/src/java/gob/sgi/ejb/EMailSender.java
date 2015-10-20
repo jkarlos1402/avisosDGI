@@ -73,14 +73,14 @@ public class EMailSender {
                 }
                 break;
             case Constante.ROL_VENTANILLA:
-                if (!mail.getIdSolicitud().equals("")) {// ingreso de solicitud
+                if (!mail.getIdSolicitud().trim().equals("")) {// ingreso de solicitud
                     tipoBody = Constante.SOL_INGRESO_BODY_PATH;
                 }
                 break;
             case Constante.ROL_SISTEMA:
-                if (mail.getIdSolicitud() != null && !mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud() == null) {
+                if (mail.getIdSolicitud() != null && !mail.getIdSolicitud().trim().equals("") && mail.getEstatusSolicitud() == null) {
                     tipoBody = Constante.SOL_NO_ACTIVIDAD_BODY_PATH;
-                } else if (mail.getIdSolicitud() != null && !mail.getIdSolicitud().equals("") && mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_CANCELADA)) {
+                } else if (mail.getIdSolicitud() != null && !mail.getIdSolicitud().trim().equals("") && mail.getEstatusSolicitud().equals(Constante.ESTATUS_SOL_CANCELADA)) {
                     tipoBody = Constante.SOL_CANCELADA_BODY_PATH;
                 } else if (mail.getIdBco() != null && !mail.getIdBco().equals("") && mail.getEstatusBco() == null) {
                     tipoBody = Constante.ES_NO_ACTIVIDAD_BODY_PATH;
@@ -118,7 +118,7 @@ public class EMailSender {
             System.out.println("IOException footer email: " + ex.getMessage());
         }
         // se sustituyen palabras reservadas dentro del texto del correo
-        mail.setHeader(header.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud() : "")
+        mail.setHeader(header.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud().trim() : "")
                 .replace(Constante.STR_ID_BANCO, mail.getIdBco() != null ? mail.getIdBco() : "")
                 .replace(Constante.STR_ESTATUS_SOL, mail.getEstatusSolicitud() != null ? EstatusSolicitud.val(mail.getEstatusSolicitud()) : "")
                 .replace(Constante.STR_ESTATUS_ES, mail.getEstatusBco() != null ? EstatusES.val(mail.getEstatusBco()) : "")
@@ -127,7 +127,7 @@ public class EMailSender {
                 .replace(Constante.STR_DIAS_CANCELACION, mail.getDiasParaNoticifacion() + "")
                 .replace(Constante.STR_NUM_DICTAMEN, mail.getNumDictamen()+ "")
                 .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
-        mail.setBody(body.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud() : "")
+        mail.setBody(body.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud().trim() : "")
                 .replace(Constante.STR_ID_BANCO, mail.getIdBco() != null ? mail.getIdBco() : "")
                 .replace(Constante.STR_ESTATUS_SOL, mail.getEstatusSolicitud() != null ? EstatusSolicitud.val(mail.getEstatusSolicitud()) : "")
                 .replace(Constante.STR_ESTATUS_ES, mail.getEstatusBco() != null ? EstatusES.val(mail.getEstatusBco()) : "")
@@ -136,7 +136,7 @@ public class EMailSender {
                 .replace(Constante.STR_DIAS_CANCELACION, mail.getDiasParaNoticifacion() + "")
                 .replace(Constante.STR_NUM_DICTAMEN, mail.getNumDictamen()+ "")
                 .replace(Constante.STR_DIR_SGI, Constante.DIR_SGI));
-        mail.setFooter(footer.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud() : "")
+        mail.setFooter(footer.toString().replace(Constante.STR_ID_SOLICITUD, mail.getIdSolicitud() != null ? mail.getIdSolicitud().trim() : "")
                 .replace(Constante.STR_ID_BANCO, mail.getIdBco() != null ? mail.getIdBco() : "")
                 .replace(Constante.STR_ESTATUS_SOL, mail.getEstatusSolicitud() != null ? EstatusSolicitud.val(mail.getEstatusSolicitud()) : "")
                 .replace(Constante.STR_ESTATUS_ES, mail.getEstatusBco() != null ? EstatusES.val(mail.getEstatusBco()) : "")
